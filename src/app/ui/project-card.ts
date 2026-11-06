@@ -1,38 +1,58 @@
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { Project } from '../site';
 
 @Component({
   selector: 'app-project-card',
-  imports: [NgTemplateOutlet],
+  imports: [MatCardModule, MatIconModule],
   template: `
     @let p = project();
-    @if (p.href) {
-      <a class="card pad" [href]="p.href">
-        <ng-container *ngTemplateOutlet="inner" />
-      </a>
-    } @else {
-      <div class="card pad"><ng-container *ngTemplateOutlet="inner" /></div>
-    }
-    <ng-template #inner>
-      <div class="tag">{{ p.tag }}</div>
-      <h3>{{ p.title }}</h3>
-      <p>{{ p.text }}</p>
-    </ng-template>
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="avatar">{{ p.icon }}</mat-icon>
+        <mat-card-title>{{ p.title }}</mat-card-title>
+        <mat-card-subtitle>{{ p.tag }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content
+        ><p>{{ p.text }}</p></mat-card-content
+      >
+      @if (p.href) {
+        <mat-card-actions>
+          <a class="more" [href]="p.href" target="_blank" rel="noopener">
+            View on GitHub <mat-icon inline>open_in_new</mat-icon>
+          </a>
+        </mat-card-actions>
+      }
+    </mat-card>
   `,
   styles: `
     :host {
       display: block;
     }
-    .pad {
-      padding: 20px 22px;
+    mat-card {
       height: 100%;
     }
-    .tag {
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    .avatar {
+      display: grid;
+      place-items: center;
+      background: var(--mat-sys-secondary-container);
+      color: var(--mat-sys-on-secondary-container);
+    }
+    p {
+      margin: 8px 0 0;
+      color: var(--mat-sys-on-surface-variant);
+    }
+    mat-card-actions {
+      margin-top: auto;
+      padding: 8px 16px 16px;
+    }
+    .more {
+      font: var(--mat-sys-label-large);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
   `,
 })

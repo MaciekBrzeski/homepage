@@ -7,8 +7,8 @@ import { GameCard } from '../ui/game-card';
   selector: 'app-games',
   imports: [GameCard],
   template: `
-    <section>
-      <h1>Games</h1>
+    <div class="page">
+      <h1 class="page-title">Games</h1>
       <p class="lead">
         Small browser games. No install, no account: they run in this tab and save progress in your
         browser.
@@ -18,7 +18,12 @@ import { GameCard } from '../ui/game-card';
           <app-game-card [game]="g" />
         }
       </div>
-    </section>
+    </div>
+  `,
+  styles: `
+    .games {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
   `,
 })
 export class Games {

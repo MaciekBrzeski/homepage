@@ -18,16 +18,34 @@ export interface Game {
 export interface Project {
   title: string;
   tag: string;
+  /** Material Symbols ligature name. */
+  icon: string;
   text: string;
   href: string | null;
+}
+
+export interface Job {
+  role: string;
+  org: string | null;
+  period: string;
+  place: string | null;
+  ladder: string | null;
+  points: string[];
 }
 
 export interface Site {
   host: string;
   name: string;
   role: string;
+  location: string;
   intro: string;
+  summary: string[];
+  highlights: { value: string; label: string }[];
   links: { github: string | null; linkedin: string | null; email: string | null };
+  skills: { group: string; items: string[] }[];
+  experience: Job[];
+  education: { title: string; org: string; period: string }[];
+  languages: { name: string; level: string }[];
   projects: Project[];
   games: Game[];
 }

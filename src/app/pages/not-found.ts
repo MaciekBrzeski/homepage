@@ -7,22 +7,13 @@ import { SITE } from '../site';
   selector: 'app-not-found',
   imports: [RouterLink],
   template: `
-    <section class="hero">
-      <h1>404</h1>
+    <section class="page">
+      <h1 class="page-title">404</h1>
       <p class="lead">
         That page is not here. <a routerLink="/">Back home</a> or
         <a routerLink="/games">play something</a>.
       </p>
     </section>
-  `,
-  styles: `
-    .hero {
-      margin-top: 72px;
-    }
-    h1 {
-      font-size: 3.6rem;
-      margin: 0 0 0.3em;
-    }
   `,
 })
 export class NotFound {

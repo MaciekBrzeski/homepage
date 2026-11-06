@@ -1,4 +1,6 @@
 import { Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { Seo } from '../seo';
@@ -7,10 +9,10 @@ import { NotFound } from './not-found';
 
 @Component({
   selector: 'app-game',
-  imports: [RouterLink, NotFound],
+  imports: [RouterLink, NotFound, MatButtonModule, MatIconModule],
   template: `
     @if (game(); as g) {
-      <section class="play">
+      <section class="page play">
         <p class="crumbs"><a routerLink="/games">Games</a> / {{ g.title }}</p>
         <div class="stage" [style.aspect-ratio]="g.aspect">
           <iframe
@@ -26,9 +28,13 @@ import { NotFound } from './not-found';
             {{ g.title }} <span class="pill">{{ g.status }}</span>
           </h1>
           <span class="spacer"></span>
-          <button class="btn" type="button" (click)="fullscreen()">Fullscreen</button>
+          <button matButton="filled" type="button" (click)="fullscreen()">
+            <mat-icon>fullscreen</mat-icon> Fullscreen
+          </button>
           <!-- a plain href: the bundle is static files, not an Angular route -->
-          <a class="btn ghost" [href]="soloUrl()">Open alone</a>
+          <a matButton="outlined" class="solo" [href]="soloUrl()"
+            ><mat-icon>open_in_new</mat-icon> Open alone</a
+          >
         </div>
         <p>{{ g.blurb }}</p>
         <p class="muted"><strong>Controls:</strong> {{ g.controls }}</p>

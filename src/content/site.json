@@ -1,23 +1,197 @@
 {
   "host": "maciejbrzeski.duckdns.org",
   "name": "Maciej Brzeski",
-  "role": "Frontend engineer · Angular & React · makes small games",
-  "intro": "I build business web apps for a living (Angular and React, some Python) and spend my evenings on browser games, edge-AI gadgets and tools that make PDFs move.",
+  "role": "Frontend Engineer · Angular · React · TypeScript",
+  "location": "Kraków, Poland",
+  "intro": "Frontend engineer with ~10 years building business web applications in Angular, React and TypeScript. I also make small browser games.",
+  "summary": [
+    "Frontend engineer with ~10 years building business web applications, specialising in TypeScript single-page apps with Angular and, over the last ~2 years, React.",
+    "Grew from Junior to Lead over nine years at EPAM Systems, leading engineering teams and delivering products used by over a million people. Works across the stack with Python when a feature needs it, and uses AI coding tools in everyday development.",
+    "In my own time I build small browser games, LLM-agent tooling and edge-AI gadgets."
+  ],
+  "highlights": [
+    {
+      "value": "~10 years",
+      "label": "building business web apps"
+    },
+    {
+      "value": "Junior → Lead",
+      "label": "nine years at EPAM Systems"
+    },
+    {
+      "value": "1M+",
+      "label": "users of one app I delivered"
+    }
+  ],
   "links": {
     "github": "https://github.com/MaciekBrzeski",
     "linkedin": "https://www.linkedin.com/in/maciej-brzeski-b3b94313b",
     "email": null
   },
+  "skills": [
+    {
+      "group": "Angular",
+      "items": [
+        "Angular (v17–18)",
+        "Standalone Components",
+        "RxJS",
+        "NgRx",
+        "Angular Material",
+        "Signals (not in production yet)"
+      ]
+    },
+    {
+      "group": "React",
+      "items": ["React", "Redux", "Zustand", "Client-side state management"]
+    },
+    {
+      "group": "Frontend",
+      "items": [
+        "TypeScript",
+        "JavaScript",
+        "HTML5",
+        "CSS3",
+        "SCSS",
+        "Tailwind CSS",
+        "SPA architecture",
+        "Web performance"
+      ]
+    },
+    {
+      "group": "Real-time",
+      "items": ["WebSockets", "Server-Sent Events (SSE)"]
+    },
+    {
+      "group": "Testing and tooling",
+      "items": [
+        "Karma",
+        "Jasmine",
+        "Playwright",
+        "Nx monorepo",
+        "Git",
+        "CI/CD pipelines (basic configuration)"
+      ]
+    },
+    {
+      "group": "Backend",
+      "items": ["Python", "Node.js", "REST APIs"]
+    },
+    {
+      "group": "Leadership",
+      "items": ["Technical direction", "Solution design", "Code review", "Mentoring", "Agile"]
+    },
+    {
+      "group": "AI tooling",
+      "items": [
+        "Claude Code",
+        "Cursor",
+        "GitHub Copilot",
+        "LLM agents",
+        "LangChain",
+        "LangGraph",
+        "Ollama"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Lead Software Engineer",
+      "org": "EPAM Systems",
+      "period": "Jun 2017 – 2026",
+      "place": "Kraków",
+      "ladder": "Lead (2023–2026) · Senior (2021–2023) · Software Engineer (2018–2021) · Junior (2017–2018)",
+      "points": [
+        "Delivered enterprise business applications for international clients, primarily Angular / TypeScript single-page apps, including one serving 1M+ users.",
+        "Built with Angular 17–18, using Standalone Components, RxJS and NgRx, on Nx monorepos with Angular Material and SCSS.",
+        "Built production features in React and TypeScript, managing client-side state with Redux and Zustand.",
+        "Improved front-end performance, cutting time-to-first-paint from several seconds to near-instant.",
+        "Drove code quality across large codebases, reducing linter and compiler errors from hundreds to a handful.",
+        "Led engineering teams, owning technical direction, solution design, code review and mentoring.",
+        "Over the last ~2 years extended into full-stack delivery across Angular / React front-ends and Python back-ends."
+      ]
+    },
+    {
+      "role": "Full-Stack Developer / Web Designer",
+      "org": "Freelance",
+      "period": "2016 – 2017",
+      "place": null,
+      "ladder": null,
+      "points": [
+        "Built responsive websites, CMS solutions and interactive front-ends with JavaScript, AngularJS, Node.js, PHP and WordPress."
+      ]
+    },
+    {
+      "role": "Earlier experience",
+      "org": null,
+      "period": "2012 – 2017",
+      "place": null,
+      "ladder": null,
+      "points": [
+        "Manager, DTA (company management, recruitment, partner relations).",
+        "Lab assistant, Jagiellonian University crystallography lab and HeidelbergCement."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "Full-Stack Web Development Certification",
+      "org": "freeCodeCamp",
+      "period": "2015–2017"
+    },
+    {
+      "title": "Materials Engineering",
+      "org": "AGH University of Science and Technology",
+      "period": "2013–2014"
+    },
+    {
+      "title": "Advanced Materials and Nanotechnology",
+      "org": "Jagiellonian University, Kraków",
+      "period": "2009–2013"
+    }
+  ],
+  "languages": [
+    {
+      "name": "Polish",
+      "level": "native"
+    },
+    {
+      "name": "English",
+      "level": "B2, daily customer communication"
+    }
+  ],
   "projects": [
+    {
+      "title": "probevane",
+      "tag": "open source · TypeScript",
+      "icon": "science",
+      "text": "Harness that adds unit and e2e tests to a codebase through a gated LLM agent loop, with stack adapters including React and Angular and a mutation-tested gate: the agent only finishes once its tests catch real bugs.",
+      "href": "https://github.com/MaciekBrzeski/probevane"
+    },
+    {
+      "title": "1st place, QAHub AI Hackathon 2026",
+      "tag": "solo entry",
+      "icon": "emoji_events",
+      "text": "Built an LLM-agent pipeline generating UI and API test cases and Playwright automation.",
+      "href": null
+    },
+    {
+      "title": "This site",
+      "tag": "Angular 22 · Angular Material",
+      "icon": "web",
+      "text": "Prerendered to static files with signals, zoneless change detection and Material 3 theming; the games are separate bundles.",
+      "href": "https://github.com/MaciekBrzeski/homepage"
+    },
     {
       "title": "pdfmotion",
       "tag": "Python library",
+      "icon": "picture_as_pdf",
       "text": "Component library for PDFs that animate in Acrobat, Chrome and Firefox and stay still everywhere else. Tested in real viewers with Playwright.",
       "href": null
     },
     {
       "title": "percept",
       "tag": "edge AI · Raspberry Pi 5 + Hailo-10H",
+      "icon": "memory",
       "text": "A wearable environment analyser that runs vision models on-device.",
       "href": null
     }

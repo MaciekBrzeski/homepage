@@ -1,64 +1,96 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { Nav } from './layout/nav';
 import { SITE } from './site';
 
+/**
+ * Wide screens: a fixed sidebar laid out with CSS grid, so the prerendered HTML is already correct before JS runs.
+ * Narrow screens: a toolbar with a menu button that opens the same <app-nav> in a Material drawer.
+ */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    Nav,
+  ],
   template: `
-    <header class="top">
-      <a class="brand" routerLink="/">{{ site.name }}</a>
-      <nav>
-        <a routerLink="/" fragment="projects">Projects</a>
-        <a routerLink="/games" routerLinkActive="active" ariaCurrentWhenActive="page">Games</a>
-        @if (hasContact) {
-          <a routerLink="/" fragment="contact">Contact</a>
-        }
-      </nav>
-    </header>
-    <main>
-      <router-outlet />
-    </main>
-    <footer class="foot">© {{ year }} {{ site.name }}</footer>
+    <mat-sidenav-container>
+      <mat-sidenav #drawer mode="over" class="drawer">
+        <app-nav (navigate)="drawer.close()" />
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="shell">
+          <aside class="rail"><app-nav /></aside>
+          <div class="main">
+            <mat-toolbar class="bar">
+              <button matIconButton type="button" aria-label="Open menu" (click)="drawer.open()">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <a class="bar-name" routerLink="/">{{ name }}</a>
+            </mat-toolbar>
+            <main><router-outlet /></main>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   `,
   styles: `
-    .top {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      height: 68px;
+    mat-sidenav-container {
+      min-height: 100vh;
+      background: var(--mat-sys-surface);
     }
-    .brand {
-      font-weight: 750;
-      color: var(--text);
+    .shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+    .rail {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--mat-sys-surface-container-low);
+      border-right: 1px solid var(--mat-sys-outline-variant);
+    }
+    .bar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      gap: 8px;
+      background: var(--mat-sys-surface-container);
+    }
+    .bar-name {
+      color: inherit;
       text-decoration: none;
+      font: var(--mat-sys-title-medium);
     }
-    nav {
-      margin-left: auto;
-      display: flex;
-      gap: 20px;
+    .drawer {
+      width: 280px;
+      background: var(--mat-sys-surface-container-low);
     }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-    nav a:hover,
-    nav a.active {
-      color: var(--text);
-    }
-    .foot {
-      color: var(--muted);
-      font-size: 0.85rem;
-      padding-top: 24px;
-      padding-bottom: 40px;
-      border-top: 1px solid var(--line);
-      margin-top: 72px;
+    @media (max-width: 959.98px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .rail {
+        display: none;
+      }
+      .bar {
+        display: flex;
+      }
     }
   `,
 })
 export class App {
-  protected readonly site = SITE;
-  protected readonly year = new Date().getFullYear();
-  protected readonly hasContact = Object.values(SITE.links).some(Boolean);
+  protected readonly name = SITE.name;
 }

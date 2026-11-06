@@ -17,7 +17,7 @@ describe('Game page', () => {
     const el = await render(g.slug);
     expect(el.querySelector('h1')?.textContent).toContain(g.title);
     expect(el.querySelector('iframe')?.getAttribute('src')).toBe(`/games/${g.slug}/play/`);
-    expect(el.querySelector('a.ghost')?.getAttribute('href')).toBe(`/games/${g.slug}/play/`);
+    expect(el.querySelector('a.solo')?.getAttribute('href')).toBe(`/games/${g.slug}/play/`);
   });
 
   it('shows the 404 for an unknown slug and embeds nothing', async () => {
