@@ -21,9 +21,19 @@ import { Project } from '../site';
     </ng-template>
   `,
   styles: `
-    :host { display: block; }
-    .pad { padding: 20px 22px; height: 100%; }
-    .tag { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    :host {
+      display: block;
+    }
+    .pad {
+      padding: 20px 22px;
+      height: 100%;
+    }
+    .tag {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
   `,
 })
 export class ProjectCard {

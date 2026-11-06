@@ -9,15 +9,28 @@ import { Game } from '../site';
     <a class="card" [routerLink]="['/games', game().slug]">
       <img [src]="'/' + game().thumb" alt="" loading="lazy" width="640" height="360" />
       <div class="body">
-        <h3>{{ game().title }} <span class="pill">{{ game().status }}</span></h3>
+        <h3>
+          {{ game().title }} <span class="pill">{{ game().status }}</span>
+        </h3>
         <p>{{ game().blurb }}</p>
       </div>
     </a>
   `,
   styles: `
-    :host { display: block; }
-    img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: var(--line); }
-    .body { padding: 16px 20px 20px; }
+    :host {
+      display: block;
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: var(--line);
+    }
+    .body {
+      padding: 16px 20px 20px;
+    }
   `,
 })
 export class GameCard {

@@ -39,20 +39,47 @@ import { ProjectCard } from '../ui/project-card';
       <section id="contact">
         <h2>Contact</h2>
         <p class="links">
-          @if (l.email) { <a [href]="'mailto:' + l.email">{{ l.email }}</a> }
-          @if (l.linkedin) { <a [href]="l.linkedin" rel="me">LinkedIn</a> }
-          @if (l.github) { <a [href]="l.github" rel="me">GitHub</a> }
+          @if (l.email) {
+            <a [href]="'mailto:' + l.email">{{ l.email }}</a>
+          }
+          @if (l.linkedin) {
+            <a [href]="l.linkedin" rel="me">LinkedIn</a>
+          }
+          @if (l.github) {
+            <a [href]="l.github" rel="me">GitHub</a>
+          }
         </p>
       </section>
     }
   `,
   styles: `
-    .hero { margin-top: 72px; max-width: 720px; }
-    .hero h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); margin: 0.2em 0 0.3em; }
-    .kicker { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.95rem; }
-    .cta { margin-top: 28px; }
-    .links { display: flex; flex-wrap: wrap; gap: 20px; }
-    @media (max-width: 560px) { .hero { margin-top: 40px; } }
+    .hero {
+      margin-top: 72px;
+      max-width: 720px;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      margin: 0.2em 0 0.3em;
+    }
+    .kicker {
+      margin: 0;
+      color: var(--accent);
+      font-weight: 650;
+      font-size: 0.95rem;
+    }
+    .cta {
+      margin-top: 28px;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    @media (max-width: 560px) {
+      .hero {
+        margin-top: 40px;
+      }
+    }
   `,
 })
 export class Home {

@@ -35,7 +35,8 @@ export interface Site {
 /** All site content. Edit src/content/site.json, never the components. */
 export const SITE: Site = content;
 
-export const findGame = (slug: string | undefined): Game | undefined => SITE.games.find((g) => g.slug === slug);
+export const findGame = (slug: string | undefined): Game | undefined =>
+  SITE.games.find((g) => g.slug === slug);
 
 /** Where scripts/assemble.mjs puts a game's bundle. Served as static files, outside the Angular router. */
 export const playUrl = (g: Game): string => `/games/${g.slug}/play/`;

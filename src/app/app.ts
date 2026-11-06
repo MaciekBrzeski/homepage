@@ -22,13 +22,39 @@ import { SITE } from './site';
     <footer class="foot">© {{ year }} {{ site.name }}</footer>
   `,
   styles: `
-    .top { display: flex; align-items: center; gap: 24px; height: 68px; }
-    .brand { font-weight: 750; color: var(--text); text-decoration: none; }
-    nav { margin-left: auto; display: flex; gap: 20px; }
-    nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
-    nav a:hover, nav a.active { color: var(--text); }
-    .foot { color: var(--muted); font-size: 0.85rem; padding-top: 24px; padding-bottom: 40px;
-            border-top: 1px solid var(--line); margin-top: 72px; }
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 68px;
+    }
+    .brand {
+      font-weight: 750;
+      color: var(--text);
+      text-decoration: none;
+    }
+    nav {
+      margin-left: auto;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    nav a:hover,
+    nav a.active {
+      color: var(--text);
+    }
+    .foot {
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding-top: 24px;
+      padding-bottom: 40px;
+      border-top: 1px solid var(--line);
+      margin-top: 72px;
+    }
   `,
 })
 export class App {
