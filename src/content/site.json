@@ -1,0 +1,39 @@
+{
+  "host": "maciejbrzeski.duckdns.org",
+  "name": "Maciej Brzeski",
+  "role": "Frontend engineer · Angular & React · makes small games",
+  "intro": "I build business web apps for a living (Angular and React, some Python) and spend my evenings on browser games, edge-AI gadgets and tools that make PDFs move.",
+  "links": {
+    "github": null,
+    "linkedin": null,
+    "email": null
+  },
+  "projects": [
+    {
+      "title": "pdfmotion",
+      "tag": "Python library",
+      "text": "Component library for PDFs that animate in Acrobat, Chrome and Firefox and stay still everywhere else. Tested in real viewers with Playwright.",
+      "href": null
+    },
+    {
+      "title": "percept",
+      "tag": "edge AI · Raspberry Pi 5 + Hailo-10H",
+      "text": "A wearable environment analyser that runs vision models on-device.",
+      "href": null
+    }
+  ],
+  "games": [
+    {
+      "slug": "duck-gallery",
+      "title": "Duck Gallery",
+      "status": "playtest build",
+      "blurb": "Carnival shooting-gallery roguelite. Six slots on the counter, weapons and modules buff their neighbours, and some pairs combine (wet + burning = steam). Hit the ticket quota every round or get thrown out of the fair. 15 rounds to win.",
+      "controls": "Move the sight with the mouse, or drag on touch; your guns fire on their own. P or Esc pauses, M mutes. Spend tokens at the prize stand between rounds.",
+      "project": "../duck-gallery",
+      "build": "npm run build",
+      "dist": "dist",
+      "thumb": "thumbs/duck-gallery.png",
+      "aspect": "16 / 9"
+    }
+  ]
+}
