@@ -1,7 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { Seo } from '../seo';
@@ -9,39 +7,47 @@ import { SITE } from '../site';
 
 @Component({
   selector: 'app-about',
-  imports: [RouterLink, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule],
+  imports: [RouterLink, MatButtonModule, MatIconModule],
   template: `
     <div class="page">
       <section class="hero">
-        <p class="kicker">{{ site.role }}</p>
+        <p class="kicker">
+          <span class="pill">{{ site.role }}</span>
+        </p>
         <h1 class="page-title">Hi, I'm {{ firstName }}.</h1>
-        <p class="where"><mat-icon inline>location_on</mat-icon> {{ site.location }}</p>
+        <p class="where muted"><mat-icon inline>location_on</mat-icon> {{ site.location }}</p>
         @for (para of site.summary; track $index) {
           <p class="summary">{{ para }}</p>
         }
         <div class="actions">
           @if (site.links.linkedin; as href) {
-            <a matButton="filled" [href]="href" target="_blank" rel="me noopener">
+            <a matButton="filled" class="btn-paper" [href]="href" target="_blank" rel="me noopener">
               <mat-icon svgIcon="linkedin" /> LinkedIn
             </a>
           }
           @if (site.links.github; as href) {
-            <a matButton="outlined" [href]="href" target="_blank" rel="me noopener">
+            <a
+              matButton="outlined"
+              class="btn-paper"
+              [href]="href"
+              target="_blank"
+              rel="me noopener"
+            >
               <mat-icon svgIcon="github" /> GitHub
             </a>
           }
-          <a matButton routerLink="/games"><mat-icon>sports_esports</mat-icon> Play my games</a>
+          <a matButton="outlined" class="btn-paper" routerLink="/games"
+            ><mat-icon>sports_esports</mat-icon> Play my games</a
+          >
         </div>
       </section>
 
-      <section class="highlights" aria-label="Highlights">
+      <section class="highlights tilt" aria-label="Highlights">
         @for (h of site.highlights; track h.value) {
-          <mat-card appearance="filled">
-            <mat-card-content>
-              <div class="value">{{ h.value }}</div>
-              <div class="label">{{ h.label }}</div>
-            </mat-card-content>
-          </mat-card>
+          <div class="paper halftone">
+            <div class="value">{{ h.value }}</div>
+            <div class="label">{{ h.label }}</div>
+          </div>
         }
       </section>
 
@@ -49,69 +55,65 @@ import { SITE } from '../site';
       <ol class="timeline">
         @for (job of site.experience; track job.role) {
           <li>
-            <mat-card appearance="outlined">
-              <mat-card-header>
-                <mat-card-title
-                  >{{ job.role }}
-                  @if (job.org) {
-                    · {{ job.org }}
-                  }
-                </mat-card-title>
-                <mat-card-subtitle
-                  >{{ job.period }}
-                  @if (job.place) {
-                    · {{ job.place }}
-                  }
-                </mat-card-subtitle>
-              </mat-card-header>
-              <mat-card-content>
-                @if (job.ladder) {
-                  <p class="ladder">{{ job.ladder }}</p>
+            <article class="paper">
+              <h3>
+                {{ job.role }}
+                @if (job.org) {
+                  <span class="org">· {{ job.org }}</span>
                 }
-                <ul>
-                  @for (pt of job.points; track $index) {
-                    <li>{{ pt }}</li>
-                  }
-                </ul>
-              </mat-card-content>
-            </mat-card>
+              </h3>
+              <p class="when muted">
+                {{ job.period }}
+                @if (job.place) {
+                  · {{ job.place }}
+                }
+              </p>
+              @if (job.ladder) {
+                <p class="ladder">{{ job.ladder }}</p>
+              }
+              <ul>
+                @for (pt of job.points; track $index) {
+                  <li>{{ pt }}</li>
+                }
+              </ul>
+            </article>
           </li>
         }
       </ol>
 
       <h2 class="section-title">Skills</h2>
-      <div class="skills">
+      <div class="skills tilt">
         @for (s of site.skills; track s.group) {
-          <div class="skill-group">
+          <section class="paper skill-group" [attr.aria-label]="s.group">
             <h3>{{ s.group }}</h3>
-            <mat-chip-set [attr.aria-label]="s.group">
+            <ul class="tags">
               @for (item of s.items; track item) {
-                <mat-chip>{{ item }}</mat-chip>
+                <li class="tag">{{ item }}</li>
               }
-            </mat-chip-set>
-          </div>
+            </ul>
+          </section>
         }
       </div>
 
-      <div class="two">
-        <section>
-          <h2 class="section-title">Education</h2>
+      <div class="two tilt">
+        <section class="paper">
+          <h2 class="card-title"><mat-icon>school</mat-icon> Education</h2>
           <ul class="plain">
             @for (e of site.education; track e.title) {
               <li>
-                <strong>{{ e.title }}</strong
-                ><br /><span class="muted">{{ e.org }} · {{ e.period }}</span>
+                <strong>{{ e.title }}</strong>
+                <span class="muted">{{ e.org }} · {{ e.period }}</span>
               </li>
             }
           </ul>
         </section>
-        <section>
-          <h2 class="section-title">Languages</h2>
+        <section class="paper">
+          <h2 class="card-title"><mat-icon>translate</mat-icon> Languages</h2>
           <ul class="plain">
             @for (l of site.languages; track l.name) {
               <li>
-                <strong>{{ l.name }}</strong
-                ><br /><span class="muted">{{ l.level }}</span>
+                <strong>{{ l.name }}</strong>
+                <span class="muted">{{ l.level }}</span>
               </li>
             }
           </ul>
@@ -124,94 +126,176 @@ import { SITE } from '../site';
       max-width: 760px;
     }
     .kicker {
-      margin: 0 0 8px;
-      color: var(--mat-sys-primary);
-      font: var(--mat-sys-title-small);
+      margin: 0 0 14px;
     }
     .where {
       display: flex;
       align-items: center;
       gap: 4px;
       margin: 0 0 20px;
-      color: var(--mat-sys-on-surface-variant);
     }
     .summary {
       margin: 0 0 14px;
+      line-height: 1.6;
     }
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
+      gap: 14px;
+      margin-top: 28px;
     }
     .highlights {
       display: grid;
-      gap: 16px;
+      gap: 32px;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      margin-top: 40px;
+      margin-top: 52px;
     }
     .value {
-      font: var(--mat-sys-headline-medium);
-      color: var(--mat-sys-primary);
+      font:
+        600 2.2rem/1 Fredoka,
+        Nunito,
+        system-ui,
+        sans-serif;
+      -webkit-text-stroke: 1.5px var(--ink);
+      color: var(--paper);
+      paint-order: stroke fill;
+      text-shadow: 2px 2px 0 var(--ink);
     }
     .label {
-      color: var(--mat-sys-on-surface-variant);
-      margin-top: 4px;
+      margin-top: 10px;
+      font-weight: 700;
+      line-height: 1.35;
     }
+
+    /* Cards hang on a dashed wire, like the targets in the gallery */
     .timeline {
       list-style: none;
       margin: 0;
-      padding: 0 0 0 20px;
-      border-left: 2px solid var(--mat-sys-outline-variant);
+      padding: 0 0 0 34px;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      bottom: 8px;
+      border-left: 3px dashed var(--muted);
     }
     .timeline > li {
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 30px;
     }
     .timeline > li::before {
-      content: '';
+      content: '★';
       position: absolute;
-      left: -28px;
-      top: 22px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--mat-sys-primary);
-      border: 3px solid var(--mat-sys-surface);
+      left: -36px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      font-size: 1.9rem;
+      line-height: 1;
+      color: var(--mustard);
+      -webkit-text-stroke: 1.5px var(--ink);
+    }
+    .timeline > li:nth-child(odd) > .paper {
+      transform: rotate(-0.35deg);
+    }
+    .timeline > li:nth-child(even) > .paper {
+      transform: rotate(0.3deg);
+    }
+    article h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .org {
+      color: var(--red);
+    }
+    .when {
+      margin: 2px 0 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
     }
     .ladder {
-      margin: 4px 0 8px;
-      font: var(--mat-sys-body-medium);
-      color: var(--mat-sys-on-surface-variant);
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 4px 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: var(--mustard);
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
     }
-    ul {
+    article ul {
       margin: 0;
       padding-left: 20px;
     }
-    ul li {
-      margin: 4px 0;
+    article li {
+      margin: 6px 0;
+      line-height: 1.5;
     }
+    article li::marker {
+      color: var(--red);
+    }
+
+    /* Masonry: each group keeps its natural height, no ragged empty cells */
     .skills {
-      display: grid;
-      gap: 20px 32px;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      columns: 280px 3;
+      column-gap: 32px;
+    }
+    .skill-group {
+      break-inside: avoid;
+      margin: 6px 6px 36px;
     }
     .skill-group h3 {
-      font: var(--mat-sys-title-small);
-      margin: 0 0 8px;
-      color: var(--mat-sys-on-surface-variant);
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
     }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
     .two {
       display: grid;
-      gap: 0 32px;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      margin-top: 28px;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .card-title mat-icon {
+      color: var(--red);
     }
     .plain {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
     .plain li {
-      margin: 0 0 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 10px 0;
+      border-top: 2px dotted rgba(27, 23, 51, 0.25);
+    }
+    .plain li:first-child {
+      border-top: 0;
+      padding-top: 0;
     }
   `,
 })

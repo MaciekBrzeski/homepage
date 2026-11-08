@@ -28,11 +28,11 @@ import { NotFound } from './not-found';
             {{ g.title }} <span class="pill">{{ g.status }}</span>
           </h1>
           <span class="spacer"></span>
-          <button matButton="filled" type="button" (click)="fullscreen()">
+          <button matButton="filled" class="btn-paper" type="button" (click)="fullscreen()">
             <mat-icon>fullscreen</mat-icon> Fullscreen
           </button>
           <!-- a plain href: the bundle is static files, not an Angular route -->
-          <a matButton="outlined" class="solo" [href]="soloUrl()"
+          <a matButton="outlined" class="btn-paper solo" [href]="soloUrl()"
             ><mat-icon>open_in_new</mat-icon> Open alone</a
           >
         </div>
@@ -60,6 +60,7 @@ import { NotFound } from './not-found';
       max-height: calc(100vh - 160px);
       margin: 0 auto;
       background: #000;
+      border: 3px solid var(--ink);
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
@@ -75,10 +76,14 @@ import { NotFound } from './not-found';
       flex-wrap: wrap;
       align-items: center;
       gap: 10px;
-      margin: 18px 0 8px;
+      margin: 26px 0 8px;
     }
     .bar h1 {
-      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.8rem;
+      font-weight: 600;
       margin: 0;
     }
     .spacer {

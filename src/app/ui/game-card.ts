@@ -1,54 +1,49 @@
 import { Component, input } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { Game } from '../site';
 
 @Component({
   selector: 'app-game-card',
-  imports: [RouterLink, MatCardModule],
+  imports: [RouterLink],
   template: `
-    <a class="card-link" [routerLink]="['/games', game().slug]">
-      <mat-card appearance="outlined">
-        <img
-          mat-card-image
-          [src]="'/' + game().thumb"
-          alt=""
-          loading="lazy"
-          width="640"
-          height="360"
-        />
-        <mat-card-header>
-          <mat-card-title>{{ game().title }}</mat-card-title>
-          <mat-card-subtitle
-            ><span class="pill">{{ game().status }}</span></mat-card-subtitle
-          >
-        </mat-card-header>
-        <mat-card-content
-          ><p>{{ game().blurb }}</p></mat-card-content
-        >
-      </mat-card>
+    @let g = game();
+    <a class="card-link" [routerLink]="['/games', g.slug]">
+      <article class="paper">
+        <img [src]="'/' + g.thumb" alt="" loading="lazy" width="640" height="360" />
+        <h2>
+          {{ g.title }} <span class="pill">{{ g.status }}</span>
+        </h2>
+        <p>{{ g.blurb }}</p>
+      </article>
     </a>
   `,
   styles: `
     :host {
       display: block;
     }
-    mat-card {
-      height: 100%;
-      overflow: hidden;
+    .paper {
+      padding: 12px 12px 18px;
     }
     img {
+      display: block;
+      width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      margin: 0;
-      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
     }
-    mat-card-header {
-      padding-top: 16px;
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 6px 6px;
+      font-size: 1.35rem;
+      font-weight: 600;
     }
     p {
-      margin: 8px 0 0;
-      color: var(--mat-sys-on-surface-variant);
+      margin: 0 6px;
+      color: var(--ink-soft);
+      line-height: 1.5;
     }
   `,
 })

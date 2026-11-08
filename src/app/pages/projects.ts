@@ -12,7 +12,7 @@ import { ProjectCard } from '../ui/project-card';
       <p class="lead">
         Things I build outside client work, mostly around testing, LLM agents and small hardware.
       </p>
-      <div class="grid">
+      <div class="grid tilt">
         @for (p of projects; track p.title) {
           <app-project-card [project]="p" />
         }

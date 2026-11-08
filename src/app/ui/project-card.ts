@@ -1,58 +1,78 @@
 import { Component, input } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Project } from '../site';
 
 @Component({
   selector: 'app-project-card',
-  imports: [MatCardModule, MatIconModule],
+  imports: [MatIconModule],
   template: `
     @let p = project();
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-icon mat-card-avatar class="avatar">{{ p.icon }}</mat-icon>
-        <mat-card-title>{{ p.title }}</mat-card-title>
-        <mat-card-subtitle>{{ p.tag }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content
-        ><p>{{ p.text }}</p></mat-card-content
-      >
+    <article class="paper">
+      <header>
+        <span class="badge halftone" aria-hidden="true"
+          ><mat-icon>{{ p.icon }}</mat-icon></span
+        >
+        <div>
+          <h2>{{ p.title }}</h2>
+          <p class="sub">{{ p.tag }}</p>
+        </div>
+      </header>
+      <p class="text">{{ p.text }}</p>
       @if (p.href) {
-        <mat-card-actions>
-          <a class="more" [href]="p.href" target="_blank" rel="noopener">
-            View on GitHub <mat-icon inline>open_in_new</mat-icon>
-          </a>
-        </mat-card-actions>
+        <a class="more" [href]="p.href" target="_blank" rel="noopener">
+          View on GitHub <mat-icon inline>open_in_new</mat-icon>
+        </a>
       }
-    </mat-card>
+    </article>
   `,
   styles: `
     :host {
       display: block;
     }
-    mat-card {
+    .paper {
+      display: flex;
+      flex-direction: column;
       height: 100%;
     }
-    .avatar {
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .badge {
+      flex: none;
       display: grid;
       place-items: center;
-      background: var(--mat-sys-secondary-container);
-      color: var(--mat-sys-on-secondary-container);
+      width: 46px;
+      height: 46px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      color: var(--ink);
     }
-    p {
-      margin: 8px 0 0;
-      color: var(--mat-sys-on-surface-variant);
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
     }
-    mat-card-actions {
-      margin-top: auto;
-      padding: 8px 16px 16px;
+    .sub {
+      margin: 2px 0 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--red);
+    }
+    .text {
+      margin: 14px 0 0;
+      color: var(--ink-soft);
+      line-height: 1.5;
     }
     .more {
-      font: var(--mat-sys-label-large);
-      text-decoration: none;
+      margin-top: auto;
+      padding-top: 14px;
+      align-self: flex-start;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      font-weight: 800;
     }
   `,
 })

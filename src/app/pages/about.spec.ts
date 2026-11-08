@@ -19,7 +19,7 @@ describe('About page', () => {
     const el = await render();
     expect(el.querySelectorAll('.timeline > li').length).toBe(SITE.experience.length);
     const chips = SITE.skills.reduce((n, s) => n + s.items.length, 0);
-    expect(el.querySelectorAll('mat-chip').length).toBe(chips);
+    expect(el.querySelectorAll('.skills .tag').length).toBe(chips);
   });
 
   it('links only the profiles that are set, and never shows phone or email', async () => {

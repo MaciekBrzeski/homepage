@@ -13,7 +13,7 @@ import { GameCard } from '../ui/game-card';
         Small browser games. No install, no account: they run in this tab and save progress in your
         browser.
       </p>
-      <div class="grid games">
+      <div class="grid games tilt">
         @for (g of games; track g.slug) {
           <app-game-card [game]="g" />
         }

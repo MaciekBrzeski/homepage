@@ -8,7 +8,7 @@ import { Nav } from './layout/nav';
 import { SITE } from './site';
 
 /**
- * Wide screens: a fixed sidebar laid out with CSS grid, so the prerendered HTML is already correct before JS runs.
+ * Wide screens: a fixed sidebar positioned by plain CSS, so the prerendered HTML is already correct before JS runs.
  * Narrow screens: a toolbar with a menu button that opens the same <app-nav> in a Material drawer.
  */
 @Component({
@@ -28,17 +28,15 @@ import { SITE } from './site';
         <app-nav (navigate)="drawer.close()" />
       </mat-sidenav>
       <mat-sidenav-content>
-        <div class="shell">
-          <aside class="rail"><app-nav /></aside>
-          <div class="main">
-            <mat-toolbar class="bar">
-              <button matIconButton type="button" aria-label="Open menu" (click)="drawer.open()">
-                <mat-icon>menu</mat-icon>
-              </button>
-              <a class="bar-name" routerLink="/">{{ name }}</a>
-            </mat-toolbar>
-            <main><router-outlet /></main>
-          </div>
+        <aside class="rail"><app-nav /></aside>
+        <div class="main">
+          <mat-toolbar class="bar">
+            <button matIconButton type="button" aria-label="Open menu" (click)="drawer.open()">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <a class="bar-name" routerLink="/">{{ name }}</a>
+          </mat-toolbar>
+          <main><router-outlet /></main>
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>
@@ -46,20 +44,26 @@ import { SITE } from './site';
   styles: `
     mat-sidenav-container {
       min-height: 100vh;
-      background: var(--mat-sys-surface);
+      background: transparent;
     }
-    .shell {
-      display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      min-height: 100vh;
-    }
+    /* The rail is fixed rather than sticky: mat-sidenav-content is not the scroll container,
+       so a sticky rail scrolled away with the page. */
     .rail {
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 280px;
       overflow-y: auto;
-      background: var(--mat-sys-surface-container-low);
-      border-right: 1px solid var(--mat-sys-outline-variant);
+      z-index: 1;
+    }
+    .main {
+      margin-left: 280px;
+      min-width: 0;
+    }
+    .rail,
+    .drawer {
+      background: var(--night);
+      color: #f7efd9;
+      border-right: 3px solid var(--ink);
     }
     .bar {
       display: none;
@@ -67,23 +71,30 @@ import { SITE } from './site';
       top: 0;
       z-index: 2;
       gap: 8px;
-      background: var(--mat-sys-surface-container);
+      height: 60px;
+      background: var(--night);
+      color: #f7efd9;
+      border-bottom: 3px solid var(--ink);
+      --mat-icon-button-icon-color: #f7efd9;
     }
     .bar-name {
       color: inherit;
       text-decoration: none;
-      font: var(--mat-sys-title-medium);
+      font:
+        600 1.2rem Fredoka,
+        Nunito,
+        system-ui,
+        sans-serif;
     }
     .drawer {
       width: 280px;
-      background: var(--mat-sys-surface-container-low);
     }
     @media (max-width: 959.98px) {
-      .shell {
-        grid-template-columns: minmax(0, 1fr);
-      }
       .rail {
         display: none;
+      }
+      .main {
+        margin-left: 0;
       }
       .bar {
         display: flex;
