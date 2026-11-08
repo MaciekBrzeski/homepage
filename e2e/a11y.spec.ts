@@ -32,15 +32,17 @@ async function audit(page: Page) {
   // Icon ligatures are invisible but full-width until the icon font arrives; measure the real layout.
   await page.evaluate(() => document.fonts.ready);
 
-  // 1. Everything except contrast, on the page as visitors see it.
+  // 1. Everything except contrast, on the page as visitors see it. The embedded game is a separate
+  // project with its own markup and is not audited here (in CI, without the game repos, its frame
+  // even shows this site's 404 page, which would count as a second <main>).
   const structure = await new AxeBuilder({ page })
     .withTags(TAGS)
     .disableRules(['color-contrast'])
+    .exclude('iframe')
     .analyze();
 
   // 2. Contrast, with decoration flattened. "Needs review" counts as a failure here.
   await page.addStyleTag({ content: FLATTEN });
-  // The embedded game is a separate project with its own styles; its contrast is not judged here.
   const contrast = await new AxeBuilder({ page })
     .withRules(['color-contrast'])
     .exclude('iframe')
