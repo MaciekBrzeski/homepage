@@ -5,6 +5,9 @@ Public personal site: portfolio + shelf of browser games. Angular 22 + Angular M
 ## Commands
 - `npm test`: ng test (vitest). `npx ng build`: prerenders every route into dist/homepage/browser.
 - `node scripts/assemble.mjs [--skip-games] [--strict]`: dist + game bundles → out/.
+- `npm run check`: everything CI runs: format, e2e typecheck, unit tests, build + assemble, Playwright.
+- `npm run e2e`: Playwright (e2e/) against out/, served by scripts/serve.mjs the way Caddy serves it.
+  Build first (`npm run build:site`). `npm run serve` serves out/ on :4300 for a manual look.
 - `npm run deploy`: build, assemble, rsync to `$DEPLOY_TARGET` (.env.deploy, gitignored), then check every page over HTTPS.
 
 ## Rules
@@ -26,7 +29,11 @@ Public personal site: portfolio + shelf of browser games. Angular 22 + Angular M
   ngClass, template-only members `protected`, Angular-set fields `readonly`. Expose service state read-only
   (`asReadonly()`) and change it through methods. We deliberately keep external templates/styles even for small
   components (the user's choice), against the guide's "prefer inline for small" hint.
-- Accessibility: every page must pass axe (WCAG 2.2 AA + best-practice) in light and dark, desktop and phone width.
-  When testing a local build in a browser, add a `?v=<timestamp>` query: the static server sends no cache headers
-  and Chrome will otherwise test a stale index.html.
+- Accessibility: every page must pass axe (WCAG 2.2 AA + best-practice) in light and dark, desktop and phone width;
+  e2e/a11y.spec.ts enforces it. axe silently skips contrast ("needs review") over gradients, pseudo-elements and
+  Material's ripple layers, so the contrast pass flattens that decoration and fails on "needs review" too. If you
+  add new decoration, extend FLATTEN rather than loosening the check, and prove the check still fails by
+  breaking a colour in out/ on purpose.
+- A one-off browser check of a local build: use `npm run serve` (no-store headers). python's http.server lets
+  Chrome cache a stale index.html.
 - Game bundles are static files at /games/<slug>/play/. Link to them with a plain href, never routerLink.

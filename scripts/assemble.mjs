@@ -14,7 +14,8 @@ const browser = join(root, 'dist/homepage/browser');
 const out = join(root, 'out');
 const skipGames = process.argv.includes('--skip-games');
 
-if (!existsSync(join(browser, 'index.html'))) throw new Error('no dist/homepage/browser/index.html; run `ng build` first');
+if (!existsSync(join(browser, 'index.html')))
+  throw new Error('no dist/homepage/browser/index.html; run `ng build` first');
 rmSync(out, { recursive: true, force: true });
 cpSync(browser, out, { recursive: true });
 // Caddy's error handler serves /404.html; Angular prerenders the 404 route to 404/index.html.
@@ -22,7 +23,8 @@ cpSync(join(out, '404/index.html'), join(out, '404.html'));
 
 let missing = 0;
 for (const g of site.games) {
-  if (!existsSync(join(out, 'games', g.slug, 'index.html'))) throw new Error(`${g.slug}: page was not prerendered`);
+  if (!existsSync(join(out, 'games', g.slug, 'index.html')))
+    throw new Error(`${g.slug}: page was not prerendered`);
   const proj = resolve(root, g.project);
   if (!existsSync(proj)) {
     console.warn(`warn: ${g.slug}: project ${proj} not found, game bundle skipped`);

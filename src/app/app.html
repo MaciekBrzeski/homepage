@@ -1,9 +1,9 @@
 <mat-sidenav-container>
   <mat-sidenav #drawer mode="over" class="drawer">
-    <app-nav (navigate)="drawer.close()" />
+    <aside aria-label="Site menu"><app-nav (navigate)="drawer.close()" /></aside>
   </mat-sidenav>
   <mat-sidenav-content>
-    <aside class="rail"><app-nav /></aside>
+    <aside class="rail" aria-label="Site menu"><app-nav /></aside>
     <div class="main">
       <header class="bar">
         <mat-toolbar>

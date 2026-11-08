@@ -46,3 +46,8 @@ Thumbs.db
 # local
 /out
 .env.deploy
+
+# Playwright
+/test-results
+/playwright-report
+/blob-report

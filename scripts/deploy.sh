@@ -8,8 +8,12 @@ cd "$(dirname "$0")/.."
 : "${DEPLOY_TARGET:?set DEPLOY_TARGET in .env.deploy}"
 HOST="$(node -p 'require("./src/content/site.json").host')"
 
+# Gate: nothing is uploaded unless the unit tests and the e2e + axe suite pass on the exact
+# files that are about to go up (out/, with the real game bundles).
+npx ng test --watch=false
 npx ng build
 node scripts/assemble.mjs --strict "$@"
+npx playwright test
 rsync -az --delete --chmod=D755,F644 out/ "$DEPLOY_TARGET/"
 
 code() { curl -s -o /dev/null --max-time 15 -w '%{http_code}' "$1" || true; }

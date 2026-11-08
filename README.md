@@ -7,6 +7,14 @@ Built with **Angular 22** and **Angular Material** (Material 3 theme, light/dark
 `@if` / `@for` / `@let` control flow, zoneless change detection, and **fully static output**. Every route is
 prerendered at build time (`outputMode: "static"`), so the server is plain Caddy serving files, with no Node process.
 
+## Checks
+
+`npm run check` runs what CI runs (.github/workflows/ci.yml) on every push and pull request:
+prettier, a typecheck of the e2e suite, unit tests (vitest), the static build, then Playwright on desktop and
+phone viewports: axe accessibility (WCAG 2.2 AA, light and dark), navigation, the theme switch, the game page,
+the 404, and the prerendered HTML with JavaScript off (titles, canonical links, no phone or e-mail).
+`npm run deploy` runs the same suites against the exact files it is about to upload, and stops on a failure.
+
 ## How it fits together
 
 - `src/content/site.json`: all text, projects and games. Components only render it.
