@@ -2,7 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
-import { provideBrandIcons } from './layout/brand-icons';
+import { provideBrandIcons } from './core/brand-icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [

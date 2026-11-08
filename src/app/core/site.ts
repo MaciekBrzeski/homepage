@@ -1,4 +1,4 @@
-import content from '../content/site.json';
+import content from '../../content/site.json';
 
 export interface Game {
   slug: string;

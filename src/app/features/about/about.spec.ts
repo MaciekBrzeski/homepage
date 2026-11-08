@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { provideBrandIcons } from '../layout/brand-icons';
-import { SITE } from '../site';
+import { provideBrandIcons } from '../../core/brand-icons';
+import { SITE } from '../../core/site';
 import { About } from './about';
 
 async function render() {

@@ -1,0 +1,17 @@
+<mat-sidenav-container>
+  <mat-sidenav #drawer mode="over" class="drawer">
+    <app-nav (navigate)="drawer.close()" />
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <aside class="rail"><app-nav /></aside>
+    <div class="main">
+      <mat-toolbar class="bar">
+        <button matIconButton type="button" aria-label="Open menu" (click)="drawer.open()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <a class="bar-name" routerLink="/">{{ name }}</a>
+      </mat-toolbar>
+      <main><router-outlet /></main>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

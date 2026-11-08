@@ -1,0 +1,48 @@
+:host {
+  display: block;
+}
+.paper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+}
+h2 {
+  margin: 0;
+  font: 700 1.8rem/1 var(--hand);
+}
+.sub {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--pen);
+}
+.text {
+  margin: 14px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.more {
+  margin-top: auto;
+  padding-top: 14px;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+}

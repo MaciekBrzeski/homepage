@@ -1,0 +1,80 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 18px 18px 12px 14px;
+  --mat-list-list-item-label-text-color: var(--on-cover);
+  --mat-list-list-item-leading-icon-color: var(--cover-accent);
+  --mat-list-list-item-hover-label-text-color: #fff;
+  --mat-list-list-item-focus-label-text-color: #fff;
+  --mat-list-list-item-hover-leading-icon-color: var(--cover-accent);
+  --mat-list-active-indicator-color: transparent;
+  --mat-list-list-item-label-text-font: Nunito, system-ui, sans-serif;
+  --mat-list-list-item-label-text-weight: 700;
+  --mat-divider-color: rgba(241, 238, 230, 0.2);
+}
+.who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 22px;
+  color: inherit;
+  text-decoration: none;
+}
+/* A round sticker on the notebook cover */
+.monogram {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--note-yellow);
+  color: var(--ink);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+  font: 700 1.55rem var(--hand);
+  transform: rotate(-8deg);
+}
+.name {
+  display: block;
+  font: 700 1.7rem/1 var(--hand);
+}
+.role {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--on-cover-muted);
+}
+mat-nav-list a {
+  border-radius: 3px;
+  margin: 4px 0;
+  transition: transform 0.15s ease;
+}
+/* The current page is a sticky note stuck on the cover */
+mat-nav-list a.on {
+  --mat-list-list-item-label-text-color: var(--ink);
+  --mat-list-list-item-hover-label-text-color: var(--ink);
+  --mat-list-list-item-focus-label-text-color: var(--ink);
+  --mat-list-list-item-leading-icon-color: var(--ink);
+  --mat-list-list-item-hover-leading-icon-color: var(--ink);
+  background: var(--note-yellow);
+  border-radius: 2px 2px 12px 2px / 2px 2px 5px 2px;
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.5);
+  transform: rotate(-1.2deg);
+}
+.sub {
+  padding-left: 56px;
+  --mat-list-list-item-label-text-weight: 600;
+}
+mat-divider {
+  margin: 12px 12px;
+}
+.bottom {
+  margin-top: auto;
+  padding: 20px 8px 4px;
+}
+.foot {
+  margin: 14px 4px 0;
+  font-size: 0.8rem;
+  color: var(--on-cover-muted);
+}

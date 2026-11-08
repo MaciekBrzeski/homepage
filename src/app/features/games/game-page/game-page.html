@@ -1,0 +1,31 @@
+@if (game(); as g) {
+  <section class="page play">
+    <p class="crumbs"><a routerLink="/games">Games</a> / {{ g.title }}</p>
+    <div class="stage" [style.aspect-ratio]="g.aspect">
+      <iframe
+        #frame
+        [src]="frameSrc()"
+        [title]="g.title"
+        allow="fullscreen; autoplay; gamepad"
+        (load)="frame.focus()"
+      ></iframe>
+    </div>
+    <div class="bar">
+      <h1>
+        {{ g.title }} <span class="pill">{{ g.status }}</span>
+      </h1>
+      <span class="spacer"></span>
+      <button matButton="filled" class="btn-paper" type="button" (click)="fullscreen()">
+        <mat-icon>fullscreen</mat-icon> Fullscreen
+      </button>
+      <!-- a plain href: the bundle is static files, not an Angular route -->
+      <a matButton="outlined" class="btn-paper solo" [href]="soloUrl()"
+        ><mat-icon>open_in_new</mat-icon> Open alone</a
+      >
+    </div>
+    <p>{{ g.blurb }}</p>
+    <p class="muted"><strong>Controls:</strong> {{ g.controls }}</p>
+  </section>
+} @else {
+  <app-not-found />
+}

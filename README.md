@@ -10,9 +10,16 @@ prerendered at build time (`outputMode: "static"`), so the server is plain Caddy
 ## How it fits together
 
 - `src/content/site.json`: all text, projects and games. Components only render it.
-- `src/app/pages/`: about, projects, games shelf, game page (the game runs in an iframe), 404.
-- `src/app/app.ts`: the layout. Wide screens get a fixed sidebar laid out in CSS grid, so the prerendered HTML is right
-  before any JS runs. Narrow screens get a toolbar and the same `<app-nav>` in a `mat-sidenav` drawer.
+- `src/app/core/`: app-wide services and data: `site.ts` (typed access to site.json), `seo.ts`, `theme.ts`
+  (light / dark / system switch, saved in localStorage), `brand-icons.ts`.
+- `src/app/layout/`: the sidebar (`nav/`) and the theme switch (`theme-toggle/`).
+- `src/app/features/`: one folder per area, each lazy-loaded: `about/`, `projects/` (with `project-card/`), and
+  `games/` with its own `games.routes.ts` (`game-list/`, `game-page/` where the game runs in an iframe, `game-card/`).
+- `src/app/shared/`: pieces used across features (`not-found/`).
+- Every component is split into `name.ts`, `name.html` and `name.scss` in its own folder.
+- `src/app/app.ts`: the layout. Wide screens get a fixed sidebar positioned in plain CSS, so the prerendered HTML is
+  right before any JS runs. Narrow screens get a toolbar and the same `<app-nav>` in a `mat-sidenav` drawer.
+- `src/styles.scss`: the notebook theme (paper, sticky notes, index cards) as CSS custom properties.
 - Games are separate projects with their own build. `scripts/assemble.mjs` builds each one and copies its bundle
   to `/games/<slug>/play/`, next to the prerendered Angular pages. The game page links to that path with a plain
   `href`, because it is static files, not a route.

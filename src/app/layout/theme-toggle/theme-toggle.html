@@ -1,0 +1,15 @@
+<div class="switch" role="group" aria-label="Colour theme">
+  @for (o of options; track o.mode) {
+    <button
+      matIconButton
+      type="button"
+      [class.on]="theme.mode() === o.mode"
+      [attr.aria-pressed]="theme.mode() === o.mode"
+      [attr.aria-label]="o.label"
+      [title]="o.label"
+      (click)="theme.set(o.mode)"
+    >
+      <mat-icon>{{ o.icon }}</mat-icon>
+    </button>
+  }
+</div>

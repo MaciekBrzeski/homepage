@@ -13,7 +13,11 @@ Public personal site: portfolio + shelf of browser games. Angular 22 + Angular M
 - Public repo: no server hostnames, IPs, usernames, tokens or infrastructure notes in tracked files. Those go in
   .env.deploy or the workshop mission (`~/Dokumenty/workshop/missions/homepage.md`).
 - Keep output static (`outputMode: "static"`). The server has little spare RAM, so no SSR process.
-- UI comes from Angular Material components and `--mat-sys-*` tokens; no hand-rolled colour values.
+- UI is Angular Material components plus the notebook theme. Colours are custom properties defined once in
+  `src/styles.scss` (`light-dark()` for scheme-dependent ones); components use `var(--…)`, never raw hex.
+- Structure: `core/` (services, data), `layout/`, `features/<area>/` (lazy, own `*.routes.ts` when it has
+  several pages), `shared/`. Each component lives in its own folder as `name.ts` + `name.html` + `name.scss`;
+  no inline `template:` or `styles:`.
 - About-page facts come from the user-confirmed CVs (~/Dokumenty/cv/cv-frontend.html, cv-react.html). Never publish
   the phone number, email, GDPR clause or photo unless the user asks.
 - Modern Angular only: standalone components, signal inputs/computed, `@if`/`@for`, zoneless. No NgModules, no zone.js.

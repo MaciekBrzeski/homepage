@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { SITE } from '../site';
-import { Game } from './game';
+import { SITE } from '../../../core/site';
+import { GamePage } from './game-page';
 
 async function render(slug: string) {
-  TestBed.configureTestingModule({ imports: [Game], providers: [provideRouter([])] });
-  const fixture = TestBed.createComponent(Game);
+  TestBed.configureTestingModule({ imports: [GamePage], providers: [provideRouter([])] });
+  const fixture = TestBed.createComponent(GamePage);
   fixture.componentRef.setInput('slug', slug);
   await fixture.whenStable();
   return fixture.nativeElement as HTMLElement;

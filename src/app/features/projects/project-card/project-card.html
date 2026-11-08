@@ -1,0 +1,18 @@
+@let p = project();
+<article class="note taped">
+  <header>
+    <span class="badge" aria-hidden="true"
+      ><mat-icon>{{ p.icon }}</mat-icon></span
+    >
+    <div>
+      <h2>{{ p.title }}</h2>
+      <p class="sub">{{ p.tag }}</p>
+    </div>
+  </header>
+  <p class="text">{{ p.text }}</p>
+  @if (p.href) {
+    <a class="more" [href]="p.href" target="_blank" rel="noopener">
+      View on GitHub <mat-icon inline>open_in_new</mat-icon>
+    </a>
+  }
+</article>

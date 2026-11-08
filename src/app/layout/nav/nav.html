@@ -1,0 +1,80 @@
+<a class="who" routerLink="/" (click)="navigate.emit()">
+  <span class="monogram" aria-hidden="true">{{ initials }}</span>
+  <span>
+    <span class="name">{{ site.name }}</span>
+    <span class="role">Frontend Engineer</span>
+  </span>
+</a>
+
+<mat-nav-list aria-label="Site">
+  <a
+    mat-list-item
+    routerLink="/"
+    routerLinkActive="on"
+    #about="routerLinkActive"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [activated]="about.isActive"
+    (click)="navigate.emit()"
+  >
+    <mat-icon matListItemIcon>person</mat-icon>
+    <span matListItemTitle>About</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/projects"
+    routerLinkActive="on"
+    #projects="routerLinkActive"
+    [activated]="projects.isActive"
+    (click)="navigate.emit()"
+  >
+    <mat-icon matListItemIcon>code</mat-icon>
+    <span matListItemTitle>Projects</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/games"
+    routerLinkActive="on"
+    #games="routerLinkActive"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [activated]="games.isActive"
+    (click)="navigate.emit()"
+  >
+    <mat-icon matListItemIcon>sports_esports</mat-icon>
+    <span matListItemTitle>Games</span>
+  </a>
+  @for (g of site.games; track g.slug) {
+    <a
+      mat-list-item
+      class="sub"
+      [routerLink]="['/games', g.slug]"
+      routerLinkActive="on"
+      #game="routerLinkActive"
+      [activated]="game.isActive"
+      (click)="navigate.emit()"
+    >
+      <span matListItemTitle>{{ g.title }}</span>
+    </a>
+  }
+</mat-nav-list>
+
+<mat-divider />
+
+<mat-nav-list aria-label="Elsewhere">
+  @if (site.links.github; as href) {
+    <a mat-list-item [href]="href" rel="me noopener" target="_blank">
+      <mat-icon matListItemIcon svgIcon="github" />
+      <span matListItemTitle>GitHub</span>
+    </a>
+  }
+  @if (site.links.linkedin; as href) {
+    <a mat-list-item [href]="href" rel="me noopener" target="_blank">
+      <mat-icon matListItemIcon svgIcon="linkedin" />
+      <span matListItemTitle>LinkedIn</span>
+    </a>
+  }
+</mat-nav-list>
+
+<div class="bottom">
+  <app-theme-toggle />
+  <p class="foot">© {{ year }} {{ site.name }}</p>
+</div>

@@ -1,0 +1,21 @@
+// Sits on the dark notebook cover, so its colours are fixed rather than scheme-dependent.
+.switch {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(241, 238, 230, 0.25);
+  border-radius: 8px;
+}
+button {
+  flex: 1;
+  border-radius: 5px;
+  --mat-icon-button-icon-color: var(--on-cover);
+  --mat-icon-button-state-layer-shape: 5px;
+}
+// The current choice is a little sticky note, like the current page in the nav
+button.on {
+  --mat-icon-button-icon-color: var(--ink);
+  background: var(--note-yellow);
+  box-shadow: 0 4px 8px -3px rgba(0, 0, 0, 0.5);
+}

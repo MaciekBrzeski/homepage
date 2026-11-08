@@ -1,0 +1,107 @@
+<div class="page">
+  <section class="hero">
+    <p class="kicker">
+      <span class="pill">{{ site.role }}</span>
+    </p>
+    <h1 class="page-title">Hi, I'm {{ firstName }}.</h1>
+    <p class="where muted"><mat-icon inline>location_on</mat-icon> {{ site.location }}</p>
+    @for (para of site.summary; track $index) {
+      <p class="summary">{{ para }}</p>
+    }
+    <div class="actions">
+      @if (site.links.linkedin; as href) {
+        <a matButton="filled" class="btn-paper" [href]="href" target="_blank" rel="me noopener">
+          <mat-icon svgIcon="linkedin" /> LinkedIn
+        </a>
+      }
+      @if (site.links.github; as href) {
+        <a matButton="outlined" class="btn-paper" [href]="href" target="_blank" rel="me noopener">
+          <mat-icon svgIcon="github" /> GitHub
+        </a>
+      }
+      <a matButton="outlined" class="btn-paper" routerLink="/games"
+        ><mat-icon>sports_esports</mat-icon> Play my games</a
+      >
+    </div>
+  </section>
+
+  <section class="highlights tilt" aria-label="Highlights">
+    @for (h of site.highlights; track h.value) {
+      <div class="note taped">
+        <div class="value">{{ h.value }}</div>
+        <div class="label">{{ h.label }}</div>
+      </div>
+    }
+  </section>
+
+  <h2 class="section-title">Experience</h2>
+  <ol class="timeline">
+    @for (job of site.experience; track job.role) {
+      <li>
+        <article class="paper">
+          <div class="head">
+            <h3>
+              {{ job.role }}
+              @if (job.org) {
+                <span class="org">· {{ job.org }}</span>
+              }
+            </h3>
+            <p class="when muted">
+              {{ job.period }}
+              @if (job.place) {
+                · {{ job.place }}
+              }
+            </p>
+          </div>
+          @if (job.ladder) {
+            <p class="ladder">{{ job.ladder }}</p>
+          }
+          <ul>
+            @for (pt of job.points; track $index) {
+              <li>{{ pt }}</li>
+            }
+          </ul>
+        </article>
+      </li>
+    }
+  </ol>
+
+  <h2 class="section-title">Skills</h2>
+  <div class="skills tilt">
+    @for (s of site.skills; track s.group) {
+      <section class="note skill-group" [attr.aria-label]="s.group">
+        <h3>{{ s.group }}</h3>
+        <ul class="tags">
+          @for (item of s.items; track item) {
+            <li class="tag">{{ item }}</li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+
+  <div class="two tilt">
+    <section class="paper">
+      <h2 class="card-title head"><mat-icon>school</mat-icon> Education</h2>
+      <ul class="plain">
+        @for (e of site.education; track e.title) {
+          <li>
+            <strong>{{ e.title }}</strong>
+            <span class="muted">{{ e.org }} · {{ e.period }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+    <section class="paper">
+      <h2 class="card-title head"><mat-icon>translate</mat-icon> Languages</h2>
+      <ul class="plain">
+        @for (l of site.languages; track l.name) {
+          <li>
+            <strong>{{ l.name }}</strong>
+            <span class="muted">{{ l.level }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+</div>
