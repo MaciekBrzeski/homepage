@@ -44,7 +44,7 @@ import { SITE } from '../site';
 
       <section class="highlights tilt" aria-label="Highlights">
         @for (h of site.highlights; track h.value) {
-          <div class="paper halftone">
+          <div class="note taped">
             <div class="value">{{ h.value }}</div>
             <div class="label">{{ h.label }}</div>
           </div>
@@ -56,18 +56,20 @@ import { SITE } from '../site';
         @for (job of site.experience; track job.role) {
           <li>
             <article class="paper">
-              <h3>
-                {{ job.role }}
-                @if (job.org) {
-                  <span class="org">· {{ job.org }}</span>
-                }
-              </h3>
-              <p class="when muted">
-                {{ job.period }}
-                @if (job.place) {
-                  · {{ job.place }}
-                }
-              </p>
+              <div class="head">
+                <h3>
+                  {{ job.role }}
+                  @if (job.org) {
+                    <span class="org">· {{ job.org }}</span>
+                  }
+                </h3>
+                <p class="when muted">
+                  {{ job.period }}
+                  @if (job.place) {
+                    · {{ job.place }}
+                  }
+                </p>
+              </div>
               @if (job.ladder) {
                 <p class="ladder">{{ job.ladder }}</p>
               }
@@ -84,7 +86,7 @@ import { SITE } from '../site';
       <h2 class="section-title">Skills</h2>
       <div class="skills tilt">
         @for (s of site.skills; track s.group) {
-          <section class="paper skill-group" [attr.aria-label]="s.group">
+          <section class="note skill-group" [attr.aria-label]="s.group">
             <h3>{{ s.group }}</h3>
             <ul class="tags">
               @for (item of s.items; track item) {
@@ -97,7 +99,7 @@ import { SITE } from '../site';
 
       <div class="two tilt">
         <section class="paper">
-          <h2 class="card-title"><mat-icon>school</mat-icon> Education</h2>
+          <h2 class="card-title head"><mat-icon>school</mat-icon> Education</h2>
           <ul class="plain">
             @for (e of site.education; track e.title) {
               <li>
@@ -108,7 +110,7 @@ import { SITE } from '../site';
           </ul>
         </section>
         <section class="paper">
-          <h2 class="card-title"><mat-icon>translate</mat-icon> Languages</h2>
+          <h2 class="card-title head"><mat-icon>translate</mat-icon> Languages</h2>
           <ul class="plain">
             @for (l of site.languages; track l.name) {
               <li>
@@ -126,7 +128,7 @@ import { SITE } from '../site';
       max-width: 760px;
     }
     .kicker {
-      margin: 0 0 14px;
+      margin: 0 0 18px;
     }
     .where {
       display: flex;
@@ -141,33 +143,26 @@ import { SITE } from '../site';
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 16px;
       margin-top: 28px;
     }
     .highlights {
       display: grid;
       gap: 32px;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      margin-top: 52px;
+      margin-top: 60px;
     }
     .value {
-      font:
-        600 2.2rem/1 Fredoka,
-        Nunito,
-        system-ui,
-        sans-serif;
-      -webkit-text-stroke: 1.5px var(--ink);
-      color: var(--paper);
-      paint-order: stroke fill;
-      text-shadow: 2px 2px 0 var(--ink);
+      font: 700 2.9rem/1 var(--hand);
+      color: var(--pen);
     }
     .label {
-      margin-top: 10px;
+      margin-top: 8px;
       font-weight: 700;
       line-height: 1.35;
     }
 
-    /* Cards hang on a dashed wire, like the targets in the gallery */
+    /* Index cards along a pen line, each marked with a dot */
     .timeline {
       list-style: none;
       margin: 0;
@@ -180,54 +175,50 @@ import { SITE } from '../site';
       left: 10px;
       top: 8px;
       bottom: 8px;
-      border-left: 3px dashed var(--muted);
+      border-left: 2px solid var(--pen);
+      opacity: 0.5;
     }
     .timeline > li {
       position: relative;
       margin-bottom: 30px;
     }
     .timeline > li::before {
-      content: '★';
+      content: '';
       position: absolute;
-      left: -36px;
-      top: 14px;
-      width: 28px;
-      height: 28px;
-      display: grid;
-      place-items: center;
-      font-size: 1.9rem;
-      line-height: 1;
-      color: var(--mustard);
-      -webkit-text-stroke: 1.5px var(--ink);
+      left: -30px;
+      top: 22px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--pen);
+      box-shadow: 0 0 0 4px var(--bg);
     }
     .timeline > li:nth-child(odd) > .paper {
-      transform: rotate(-0.35deg);
+      transform: rotate(-0.3deg);
     }
     .timeline > li:nth-child(even) > .paper {
-      transform: rotate(0.3deg);
+      transform: rotate(0.25deg);
     }
     article h3 {
       margin: 0;
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-size: 1.25rem;
+      font-weight: 800;
     }
     .org {
-      color: var(--red);
+      color: var(--pen);
     }
     .when {
-      margin: 2px 0 10px;
+      margin: 4px 0 0;
       font-weight: 700;
       font-size: 0.95rem;
     }
     .ladder {
       display: inline-block;
       margin: 0 0 10px;
-      padding: 4px 10px;
+      padding: 2px 6px;
       font-size: 0.9rem;
       font-weight: 700;
-      background: var(--mustard);
-      border: 1.5px solid var(--ink);
-      border-radius: 6px;
+      background: var(--hl);
     }
     article ul {
       margin: 0;
@@ -238,27 +229,27 @@ import { SITE } from '../site';
       line-height: 1.5;
     }
     article li::marker {
-      color: var(--red);
+      color: var(--pen);
     }
 
-    /* Masonry: each group keeps its natural height, no ragged empty cells */
+    /* Masonry: each note keeps its natural height, no ragged empty cells */
     .skills {
-      columns: 280px 3;
+      columns: 270px 3;
       column-gap: 32px;
+      padding-top: 8px;
     }
     .skill-group {
       break-inside: avoid;
-      margin: 6px 6px 36px;
+      margin: 14px 4px 44px;
     }
     .skill-group h3 {
       margin: 0 0 12px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      font: 700 1.75rem/1 var(--hand);
     }
     .tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 9px 8px;
+      gap: 8px 6px;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -268,18 +259,16 @@ import { SITE } from '../site';
       display: grid;
       gap: 32px;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      margin-top: 28px;
+      margin-top: 20px;
     }
     .card-title {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 0 0 14px;
-      font-size: 1.3rem;
-      font-weight: 600;
+      font: 700 1.9rem/1 var(--hand);
     }
     .card-title mat-icon {
-      color: var(--red);
+      color: var(--pen);
     }
     .plain {
       list-style: none;
@@ -291,7 +280,7 @@ import { SITE } from '../site';
       flex-direction: column;
       gap: 2px;
       padding: 10px 0;
-      border-top: 2px dotted rgba(27, 23, 51, 0.25);
+      border-top: 1px solid #d5e1ef;
     }
     .plain li:first-child {
       border-top: 0;

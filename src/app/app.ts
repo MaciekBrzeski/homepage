@@ -52,18 +52,46 @@ import { SITE } from './site';
       position: fixed;
       inset: 0 auto 0 0;
       width: 280px;
-      overflow-y: auto;
       z-index: 1;
+    }
+    /* Spiral binding where the cover meets the page */
+    .rail::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -12px;
+      width: 24px;
+      background: radial-gradient(
+          ellipse 11px 5px at 50% 50%,
+          transparent 6px,
+          #a7aebb 6.5px,
+          #e4e7ec 8px,
+          #8d95a3 9.5px,
+          transparent 10px
+        )
+        0 0 / 24px 28px repeat-y;
+      pointer-events: none;
     }
     .main {
       margin-left: 280px;
       min-width: 0;
+      /* the red margin line of a notebook page */
+      background: linear-gradient(
+          90deg,
+          transparent 52px,
+          var(--margin-line) 52px,
+          var(--margin-line) 54px,
+          transparent 54px
+        )
+        no-repeat;
+      min-height: 100vh;
     }
     .rail,
     .drawer {
-      background: var(--night);
-      color: #f7efd9;
-      border-right: 3px solid var(--ink);
+      background: var(--cover);
+      color: #f1eee6;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.25);
     }
     .bar {
       display: none;
@@ -72,19 +100,15 @@ import { SITE } from './site';
       z-index: 2;
       gap: 8px;
       height: 60px;
-      background: var(--night);
-      color: #f7efd9;
-      border-bottom: 3px solid var(--ink);
-      --mat-icon-button-icon-color: #f7efd9;
+      background: var(--cover);
+      color: #f1eee6;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --mat-icon-button-icon-color: #f1eee6;
     }
     .bar-name {
       color: inherit;
       text-decoration: none;
-      font:
-        600 1.2rem Fredoka,
-        Nunito,
-        system-ui,
-        sans-serif;
+      font: 700 1.6rem var(--hand);
     }
     .drawer {
       width: 280px;
@@ -95,6 +119,7 @@ import { SITE } from './site';
       }
       .main {
         margin-left: 0;
+        background: none;
       }
       .bar {
         display: flex;

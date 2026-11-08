@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
-// Paper-cutout carnival theme, borrowed from Duck Gallery's sprites:
-// ink outlines, a white die-cut edge, a hard cast shadow, halftone dots, night-fair colours.
+// Paper notebook theme: ruled pages with a red margin line, index cards, sticky notes
+// held on with tape, handwritten headings marked with a highlighter.
 
 html {
   color-scheme: light dark;
@@ -13,32 +13,36 @@ html {
       ),
       typography: (
         plain-family: 'Nunito, system-ui, sans-serif',
-        brand-family: 'Fredoka, Nunito, system-ui, sans-serif',
+        brand-family: 'Caveat, Nunito, system-ui, sans-serif',
       ),
       density: 0,
     )
   );
 
-  // Fixed carnival colours (the paper is paper in both schemes)
-  --ink: #1b1733;
-  --paper: #fff8e6;
-  --cut: #ffffff;
-  --mustard: #f6c343;
-  --red: #d2402f;
-  --teal: #2b78b3;
-  --night: #221f52;
-  --night-deep: #17153a;
-  --ink-soft: #4a4466;
+  // Physical things keep their colour in both schemes
+  --ink: #2a2d3a;
+  --ink-soft: #565a6b;
+  --pen: #2c4f9e;
+  --card: #fffefa;
+  --note-yellow: #fff1a1;
+  --note-blue: #cfe6fb;
+  --note-pink: #ffd5df;
+  --note-green: #d7f2c8;
+  --tape: rgba(236, 226, 200, 0.78);
+  --cover: #2f3e56;
+  --hand: Caveat, 'Comic Neue', cursive;
 
-  // Scheme-dependent page
-  --bg: light-dark(#e8dcc0, var(--night-deep));
-  --bg-dots: light-dark(rgba(27, 23, 51, 0.07), rgba(255, 248, 230, 0.06));
-  --fg: light-dark(var(--ink), #f7efd9);
-  --muted: light-dark(#5b5470, #c4bcdc);
-  --cast: light-dark(rgba(27, 23, 51, 0.28), rgba(0, 0, 0, 0.55));
+  // The page itself
+  --bg: light-dark(#fbfaf4, #1f232a);
+  --rule: light-dark(#d5e1ef, rgba(150, 180, 220, 0.13));
+  --margin-line: light-dark(#eaa3a3, rgba(230, 110, 110, 0.4));
+  --fg: light-dark(var(--ink), #e9e6dd);
+  --muted: light-dark(#5d6173, #aeb3c2);
+  --hl: light-dark(rgba(255, 214, 10, 0.55), rgba(255, 200, 0, 0.32));
+  --lift: light-dark(rgba(40, 35, 20, 0.35), rgba(0, 0, 0, 0.7));
 
-  --radius: 14px;
-  --shadow: 0 0 0 6px var(--cut), 6px 8px 0 6px var(--cast);
+  --radius: 3px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 14px 18px -12px var(--lift);
 }
 
 * {
@@ -51,52 +55,42 @@ body {
 body {
   margin: 0;
   background-color: var(--bg);
-  background-image: radial-gradient(var(--bg-dots) 1.3px, transparent 1.8px);
-  background-size: 9px 9px;
+  // Ruled notebook lines
+  background-image: linear-gradient(var(--rule) 1px, transparent 1px);
+  background-size: 100% 32px;
   color: var(--fg);
   font: var(--mat-sys-body-large);
   -webkit-font-smoothing: antialiased;
 }
 a {
   color: inherit;
-  text-decoration-color: var(--red);
+  text-decoration-color: var(--pen);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
 h1,
 h2,
 h3 {
-  font-family: Fredoka, Nunito, system-ui, sans-serif;
   letter-spacing: 0;
 }
 
-// ---- Paper cutout ---------------------------------------------------------
-// Ink outline, then a white die-cut margin, then a hard shadow cast onto the backdrop.
+// ---- Index card -----------------------------------------------------------
 .paper {
   position: relative;
-  background: var(--paper);
+  background: var(--card);
   color: var(--ink);
-  border: 2.5px solid var(--ink);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 18px 20px;
+  padding: 18px 22px 20px;
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease;
 }
-// A little hand-placed wobble; hovering a linked card straightens and lifts it.
-.tilt > :nth-child(3n + 1) {
-  --tilt: -0.6deg;
-}
-.tilt > :nth-child(3n + 2) {
-  --tilt: 0.5deg;
-}
-.tilt > :nth-child(3n) {
-  --tilt: -0.25deg;
-}
-.tilt > .paper,
-.tilt > * > .paper {
-  transform: rotate(var(--tilt, 0deg));
+// The red rule under an index card's heading, edge to edge
+.paper > .head {
+  margin: -2px -22px 14px;
+  padding: 0 22px 10px;
+  border-bottom: 2px solid #e48f8f;
 }
 .paper .muted {
   color: var(--ink-soft);
@@ -105,125 +99,155 @@ h3 {
   color: var(--ink);
 }
 
-// Halftone print dots (the duck's shading)
-.halftone {
-  background-color: var(--mustard);
-  background-image: radial-gradient(rgba(210, 64, 47, 0.38) 1.2px, transparent 1.7px);
-  background-size: 6px 6px;
+// ---- Sticky note ----------------------------------------------------------
+.note {
+  position: relative;
+  background: var(--note, var(--note-yellow));
+  color: var(--ink);
+  padding: 24px 20px 20px;
+  // a slightly lifted bottom-right corner
+  border-radius: 2px 2px 14px 2px / 2px 2px 6px 2px;
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.note .muted {
+  color: var(--ink-soft);
+}
+.note a {
+  color: var(--ink);
+}
+// A strip of tape holding it up
+.taped::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 92px;
+  height: 26px;
+  transform: translateX(-50%) rotate(var(--tape-tilt, -3deg));
+  background: var(--tape);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  z-index: 1;
 }
 
-// Small tag cut from card stock
+// Hand-placed: a little tilt and a cycle of note colours
+.tilt > :nth-child(4n + 1) {
+  --tilt: -1deg;
+  --note: var(--note-yellow);
+}
+.tilt > :nth-child(4n + 2) {
+  --tilt: 0.8deg;
+  --note: var(--note-blue);
+  --tape-tilt: 4deg;
+}
+.tilt > :nth-child(4n + 3) {
+  --tilt: -0.4deg;
+  --note: var(--note-pink);
+}
+.tilt > :nth-child(4n) {
+  --tilt: 1.1deg;
+  --note: var(--note-green);
+  --tape-tilt: 2deg;
+}
+.tilt > .note,
+.tilt > .paper,
+.tilt > * > .note,
+.tilt > * > .paper,
+.tilt > * > a > .note,
+.tilt > * > a > .paper {
+  transform: rotate(var(--tilt, 0deg));
+}
+
+// Small word circled in pen
 .tag {
   display: inline-block;
   font:
     600 0.85rem/1.2 Nunito,
     system-ui,
     sans-serif;
-  padding: 4px 9px;
-  border: 1.5px solid var(--ink);
-  border-radius: 6px;
-  background: var(--cut);
+  padding: 3px 10px;
+  border: 1.5px solid rgba(42, 45, 58, 0.5);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
   color: var(--ink);
-  box-shadow: 2px 2px 0 var(--ink);
 }
+// A label written on masking tape
 .pill {
   display: inline-block;
   vertical-align: middle;
-  font:
-    800 0.7rem/1 Nunito,
-    system-ui,
-    sans-serif;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 5px 9px;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  background: var(--mustard);
+  font: 700 1.1rem/1.1 var(--hand);
+  padding: 3px 12px 2px;
+  background: var(--tape);
   color: var(--ink);
+  transform: rotate(-2deg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
-// Paper buttons, layered on Material buttons
+// Buttons: an index-card tab and a sticky-note one, on top of Material buttons
 .btn-paper.btn-paper.mat-mdc-button-base {
-  --mat-button-filled-container-color: var(--mustard);
+  --mat-button-filled-container-color: var(--note-yellow);
   --mat-button-filled-label-text-color: var(--ink);
   --mat-button-outlined-label-text-color: var(--ink);
   --mat-button-outlined-outline-color: transparent;
-  --mat-button-text-label-text-color: var(--ink);
   height: 44px;
   padding: 0 18px;
-  border: 2px solid var(--ink);
-  border-radius: 10px;
-  background: var(--paper);
+  border-radius: 3px;
+  background: var(--card);
   color: var(--ink);
-  box-shadow:
-    0 0 0 3px var(--cut),
-    4px 4px 0 3px var(--cast);
+  box-shadow: var(--shadow);
   font-weight: 800;
   transition:
     transform 0.12s ease,
     box-shadow 0.12s ease;
 }
 .btn-paper.btn-paper.mat-mdc-button-base.mat-mdc-unelevated-button {
-  background: var(--mustard);
+  background: var(--note-yellow);
 }
 .btn-paper.btn-paper.mat-mdc-button-base:hover {
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 0 0 3px var(--cut),
-    6px 6px 0 3px var(--cast);
+  transform: translateY(-2px) rotate(-1deg);
 }
 .btn-paper.btn-paper.mat-mdc-button-base:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 0 0 3px var(--cut),
-    1px 1px 0 3px var(--cast);
+  transform: translateY(1px);
 }
 
 // ---- Shared page furniture ------------------------------------------------
 .page {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 44px 36px 72px;
+  padding: 44px 40px 72px;
 }
 .page-title {
-  font:
-    600 2.6rem/1.1 Fredoka,
-    Nunito,
-    system-ui,
-    sans-serif;
-  margin: 0 0 10px;
+  font: 700 3.4rem/1 var(--hand);
+  margin: 0 0 12px;
 }
 .lead {
   font-size: 1.15rem;
   color: var(--muted);
-  margin: 0 0 40px;
+  margin: 0 0 44px;
   max-width: 680px;
 }
-// Section headings are a red paper banner pinned to the board
+// Handwritten heading with a highlighter swipe behind it
 .section-title {
   display: table;
-  font:
-    600 1.35rem/1 Fredoka,
-    Nunito,
-    system-ui,
-    sans-serif;
+  font: 700 2.3rem/1 var(--hand);
   margin: 64px 0 28px;
-  padding: 9px 18px 10px;
-  background: var(--red);
-  color: var(--paper);
-  border: 2.5px solid var(--ink);
-  border-radius: 8px;
-  box-shadow:
-    0 0 0 4px var(--cut),
-    4px 5px 0 4px var(--cast);
-  transform: rotate(-1.2deg);
+  padding: 0 8px;
+  background: linear-gradient(
+    176deg,
+    transparent 48%,
+    var(--hl) 48%,
+    var(--hl) 88%,
+    transparent 88%
+  );
 }
 .muted {
   color: var(--muted);
 }
 .grid {
   display: grid;
-  gap: 32px;
+  gap: 36px 32px;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 a.card-link {
@@ -231,24 +255,26 @@ a.card-link {
   height: 100%;
   color: inherit;
   text-decoration: none;
-  border-radius: var(--radius);
 }
-a.card-link > .paper {
+a.card-link > .paper,
+a.card-link > .note {
   height: 100%;
 }
-a.card-link:hover > .paper {
-  transform: translate(-2px, -3px) rotate(0deg);
+a.card-link:hover > .paper,
+a.card-link:hover > .note {
+  transform: translateY(-4px) rotate(0deg);
   box-shadow:
-    0 0 0 6px var(--cut),
-    9px 12px 0 6px var(--cast);
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 22px 24px -14px var(--lift);
 }
 a.card-link:focus-visible {
-  outline: 3px solid var(--mustard);
-  outline-offset: 10px;
+  outline: 3px solid var(--pen);
+  outline-offset: 8px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .paper,
+  .note,
   .btn-paper.btn-paper.mat-mdc-button-base {
     transition: none;
   }
@@ -259,6 +285,6 @@ a.card-link:focus-visible {
     padding: 28px 18px 56px;
   }
   .page-title {
-    font-size: 2rem;
+    font-size: 2.7rem;
   }
 }

@@ -10,9 +10,8 @@ import { SITE } from '../site';
   selector: 'app-nav',
   imports: [MatListModule, MatIconModule, MatDividerModule, RouterLink, RouterLinkActive],
   template: `
-    <div class="awning" aria-hidden="true"></div>
     <a class="who" routerLink="/" (click)="navigate.emit()">
-      <span class="monogram halftone" aria-hidden="true">{{ initials }}</span>
+      <span class="monogram" aria-hidden="true">{{ initials }}</span>
       <span>
         <span class="name">{{ site.name }}</span>
         <span class="role">Frontend Engineer</span>
@@ -94,97 +93,78 @@ import { SITE } from '../site';
       display: flex;
       flex-direction: column;
       min-height: 100%;
-      padding: 0 14px 12px;
-      --mat-list-list-item-label-text-color: #f7efd9;
-      --mat-list-list-item-leading-icon-color: #f6c343;
+      padding: 18px 18px 12px 14px;
+      --mat-list-list-item-label-text-color: #f1eee6;
+      --mat-list-list-item-leading-icon-color: #f6d860;
       --mat-list-list-item-hover-label-text-color: #fff;
       --mat-list-list-item-focus-label-text-color: #fff;
-      --mat-list-list-item-hover-leading-icon-color: #f6c343;
+      --mat-list-list-item-hover-leading-icon-color: #f6d860;
       --mat-list-active-indicator-color: transparent;
       --mat-list-list-item-label-text-font: Nunito, system-ui, sans-serif;
       --mat-list-list-item-label-text-weight: 700;
-      --mat-divider-color: rgba(247, 239, 217, 0.2);
-    }
-    /* Red and cream striped booth awning with a scalloped edge, as in Duck Gallery */
-    .awning {
-      flex: none;
-      height: 34px;
-      margin: 0 -14px 8px;
-      background: repeating-linear-gradient(90deg, var(--red) 0 28px, var(--paper) 28px 56px);
-      -webkit-mask:
-        linear-gradient(#000 0 0) top / 100% 20px no-repeat,
-        radial-gradient(circle at 14px 0, #000 13.5px, transparent 14px) 0 20px / 28px 14px repeat-x;
-      mask:
-        linear-gradient(#000 0 0) top / 100% 20px no-repeat,
-        radial-gradient(circle at 14px 0, #000 13.5px, transparent 14px) 0 20px / 28px 14px repeat-x;
+      --mat-divider-color: rgba(241, 238, 230, 0.2);
     }
     .who {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 8px 16px;
+      padding: 8px 8px 22px;
       color: inherit;
       text-decoration: none;
     }
+    /* A round sticker on the notebook cover */
     .monogram {
       flex: none;
       display: grid;
       place-items: center;
-      width: 50px;
-      height: 50px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      border: 2.5px solid var(--ink);
-      box-shadow:
-        0 0 0 4px var(--cut),
-        3px 4px 0 4px rgba(0, 0, 0, 0.45);
+      background: var(--note-yellow);
       color: var(--ink);
-      font:
-        600 1.15rem Fredoka,
-        Nunito,
-        system-ui,
-        sans-serif;
-      transform: rotate(-4deg);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+      font: 700 1.55rem var(--hand);
+      transform: rotate(-8deg);
     }
     .name {
       display: block;
-      font:
-        600 1.2rem/1.2 Fredoka,
-        Nunito,
-        system-ui,
-        sans-serif;
+      font: 700 1.7rem/1 var(--hand);
     }
     .role {
       display: block;
+      margin-top: 4px;
       font-size: 0.85rem;
-      color: #c4bcdc;
+      color: #bfc6d4;
     }
     mat-nav-list a {
-      border-radius: 10px;
-      margin: 3px 0;
-      border: 2px solid transparent;
+      border-radius: 3px;
+      margin: 4px 0;
+      transition: transform 0.15s ease;
     }
+    /* The current page is a sticky note stuck on the cover */
     mat-nav-list a.on {
       --mat-list-list-item-label-text-color: var(--ink);
       --mat-list-list-item-hover-label-text-color: var(--ink);
       --mat-list-list-item-focus-label-text-color: var(--ink);
       --mat-list-list-item-leading-icon-color: var(--ink);
       --mat-list-list-item-hover-leading-icon-color: var(--ink);
-      background: var(--mustard);
-      border-color: var(--ink);
-      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+      background: var(--note-yellow);
+      border-radius: 2px 2px 12px 2px / 2px 2px 5px 2px;
+      box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.5);
+      transform: rotate(-1.2deg);
     }
     .sub {
       padding-left: 56px;
       --mat-list-list-item-label-text-weight: 600;
     }
     mat-divider {
-      margin: 10px 12px;
+      margin: 12px 12px;
     }
     .foot {
       margin: auto 12px 4px;
       padding-top: 16px;
       font-size: 0.8rem;
-      color: #c4bcdc;
+      color: #bfc6d4;
     }
   `,
 })

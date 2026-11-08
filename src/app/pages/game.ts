@@ -60,7 +60,7 @@ import { NotFound } from './not-found';
       max-height: calc(100vh - 160px);
       margin: 0 auto;
       background: #000;
-      border: 3px solid var(--ink);
+      border: 10px solid var(--card);
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
@@ -82,8 +82,7 @@ import { NotFound } from './not-found';
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 1.8rem;
-      font-weight: 600;
+      font: 700 2.6rem/1 var(--hand);
       margin: 0;
     }
     .spacer {

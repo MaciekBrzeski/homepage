@@ -7,9 +7,9 @@ import { Project } from '../site';
   imports: [MatIconModule],
   template: `
     @let p = project();
-    <article class="paper">
+    <article class="note taped">
       <header>
-        <span class="badge halftone" aria-hidden="true"
+        <span class="badge" aria-hidden="true"
           ><mat-icon>{{ p.icon }}</mat-icon></span
         >
         <div>
@@ -47,18 +47,18 @@ import { Project } from '../site';
       height: 46px;
       border: 2px solid var(--ink);
       border-radius: 50%;
+      background: rgba(255, 255, 255, 0.55);
       color: var(--ink);
     }
     h2 {
       margin: 0;
-      font-size: 1.25rem;
-      font-weight: 600;
+      font: 700 1.8rem/1 var(--hand);
     }
     .sub {
       margin: 2px 0 0;
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--red);
+      color: var(--pen);
     }
     .text {
       margin: 14px 0 0;

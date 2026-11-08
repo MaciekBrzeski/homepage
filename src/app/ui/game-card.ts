@@ -8,7 +8,7 @@ import { Game } from '../site';
   template: `
     @let g = game();
     <a class="card-link" [routerLink]="['/games', g.slug]">
-      <article class="paper">
+      <article class="paper polaroid taped">
         <img [src]="'/' + g.thumb" alt="" loading="lazy" width="640" height="360" />
         <h2>
           {{ g.title }} <span class="pill">{{ g.status }}</span>
@@ -21,7 +21,7 @@ import { Game } from '../site';
     :host {
       display: block;
     }
-    .paper {
+    .polaroid {
       padding: 12px 12px 18px;
     }
     img {
@@ -29,16 +29,14 @@ import { Game } from '../site';
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      border: 2px solid var(--ink);
-      border-radius: 8px;
+      border-radius: 1px;
     }
     h2 {
       display: flex;
       align-items: center;
       gap: 10px;
       margin: 14px 6px 6px;
-      font-size: 1.35rem;
-      font-weight: 600;
+      font: 700 2rem/1 var(--hand);
     }
     p {
       margin: 0 6px;
