@@ -1,7 +1,7 @@
 @let g = game();
 <a class="card-link" [routerLink]="['/games', g.slug]">
   <article class="paper polaroid taped">
-    <img [src]="'/' + g.thumb" alt="" loading="lazy" width="640" height="360" />
+    <img [ngSrc]="'/' + g.thumb" alt="" width="640" height="360" />
     <h2>
       {{ g.title }} <span class="pill">{{ g.status }}</span>
     </h2>

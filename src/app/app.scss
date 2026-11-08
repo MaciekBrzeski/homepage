@@ -54,6 +54,8 @@ mat-sidenav-container {
   position: sticky;
   top: 0;
   z-index: 2;
+}
+.bar mat-toolbar {
   gap: 8px;
   height: 60px;
   background: var(--cover);
@@ -78,6 +80,6 @@ mat-sidenav-container {
     background: none;
   }
   .bar {
-    display: flex;
+    display: block;
   }
 }

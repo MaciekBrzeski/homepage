@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { effect, inject, PLATFORM_ID, Service, signal } from '@angular/core';
 
 export type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -11,12 +11,14 @@ export const THEME_KEY = 'theme';
  * The choice is written to <html data-theme>, and styles.scss maps that to `color-scheme`,
  * which flips every light-dark() token, Material's included.
  */
-@Injectable({ providedIn: 'root' })
+@Service()
 export class Theme {
   private readonly doc = inject(DOCUMENT);
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  readonly mode = signal<ThemeMode>(this.load());
+  private readonly selected = signal<ThemeMode>(this.load());
+  /** Read-only: change it through set(), which also remembers the choice. */
+  readonly mode = this.selected.asReadonly();
 
   constructor() {
     effect(() => {
@@ -28,7 +30,7 @@ export class Theme {
   }
 
   set(mode: ThemeMode): void {
-    this.mode.set(mode);
+    this.selected.set(mode);
     if (!this.browser) return;
     try {
       if (mode === 'system') localStorage.removeItem(THEME_KEY);

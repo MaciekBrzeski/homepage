@@ -21,4 +21,12 @@ Public personal site: portfolio + shelf of browser games. Angular 22 + Angular M
 - About-page facts come from the user-confirmed CVs (~/Dokumenty/cv/cv-frontend.html, cv-react.html). Never publish
   the phone number, email, GDPR clause or photo unless the user asks.
 - Modern Angular only: standalone components, signal inputs/computed, `@if`/`@for`, zoneless. No NgModules, no zone.js.
+- Follow angular.dev's best-practices file (angular.dev/assets/context/best-practices.md): `@Service()` for new
+  singleton services, `inject()` not constructor params, `NgOptimizedImage` (`ngSrc`) for images, `[class.x]` not
+  ngClass, template-only members `protected`, Angular-set fields `readonly`. Expose service state read-only
+  (`asReadonly()`) and change it through methods. We deliberately keep external templates/styles even for small
+  components (the user's choice), against the guide's "prefer inline for small" hint.
+- Accessibility: every page must pass axe (WCAG 2.2 AA + best-practice) in light and dark, desktop and phone width.
+  When testing a local build in a browser, add a `?v=<timestamp>` query: the static server sends no cache headers
+  and Chrome will otherwise test a stale index.html.
 - Game bundles are static files at /games/<slug>/play/. Link to them with a plain href, never routerLink.

@@ -1,9 +1,9 @@
-import { DOCUMENT, inject, Injectable } from '@angular/core';
+import { DOCUMENT, inject, Service } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { SITE } from './site';
 
 /** Sets the title and the description / Open Graph tags; runs during prerender, so crawlers see them. */
-@Injectable({ providedIn: 'root' })
+@Service()
 export class Seo {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);

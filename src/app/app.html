@@ -5,12 +5,14 @@
   <mat-sidenav-content>
     <aside class="rail"><app-nav /></aside>
     <div class="main">
-      <mat-toolbar class="bar">
-        <button matIconButton type="button" aria-label="Open menu" (click)="drawer.open()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <a class="bar-name" routerLink="/">{{ name }}</a>
-      </mat-toolbar>
+      <header class="bar">
+        <mat-toolbar>
+          <button matIconButton type="button" aria-label="Open menu" (click)="drawer.open()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <a class="bar-name" routerLink="/">{{ name }}</a>
+        </mat-toolbar>
+      </header>
       <main><router-outlet /></main>
     </div>
   </mat-sidenav-content>
