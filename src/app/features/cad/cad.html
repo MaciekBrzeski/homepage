@@ -16,7 +16,7 @@
     }
   </div>
 
-  <figure class="sheet paper taped">
+  <figure class="sheet paper taped" [style.--grid-alpha]="grid()">
     <canvas
       #canvas
       tabindex="0"
@@ -32,6 +32,14 @@
       (wheel)="wheel($event)"
       (keydown)="key($event)"
     ></canvas>
+
+    @if (status() === 'loading') {
+      <div class="loading">
+        <span>{{ progress() < 1 ? 'Loading the model…' : 'Drawing…' }}</span>
+        <progress max="1" [value]="progress()" aria-label="Loading the model"></progress>
+        <span class="pct">{{ (progress() * 100).toFixed(0) }}%</span>
+      </div>
+    }
 
     <div class="tools">
       <button matIconButton type="button" title="Zoom in" aria-label="Zoom in" (click)="zoom(0.8)">
@@ -70,7 +78,7 @@
           }
         }
         @case ('loading') {
-          <span class="tb-row">Drawing…</span>
+          <span class="tb-row">Loading…</span>
         }
         @case ('missing') {
           <span class="tb-row">The models are not in this build.</span>
@@ -109,6 +117,17 @@
           step="0.05"
           [value]="explode()"
           (input)="explode.set(value($event))"
+        />
+      </label>
+      <label class="range">
+        <span>Graph paper</span>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          [value]="grid()"
+          (input)="grid.set(value($event))"
         />
       </label>
       <label class="check">

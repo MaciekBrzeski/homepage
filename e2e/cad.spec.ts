@@ -52,6 +52,32 @@ test.describe('CAD viewer', () => {
   });
 });
 
+test('the graph paper fades behind the model', async ({ page }) => {
+  await page.goto('/cad/');
+  const grid = () =>
+    page.locator('.sheet').evaluate((el) => getComputedStyle(el, '::after').opacity);
+  expect(await grid()).toBe('1');
+  await page.getByLabel('Graph paper').fill('0.2');
+  expect(await grid()).toBe('0.2');
+});
+
+test('a loading bar shows while a model downloads', async ({ page }) => {
+  // Hold the cube's download until the bar has been seen.
+  let release!: () => void;
+  const held = new Promise<void>((r) => (release = r));
+  await page.route('**/cad/models/fixture/cube.stl', async (route) => {
+    await held;
+    await route.fallback();
+  });
+  await page.goto('/cad/');
+  const bar = page.getByRole('progressbar', { name: 'Loading the model' });
+  await expect(bar).toBeVisible();
+  await expect(page.locator('.loading')).toContainText('Loading the model…');
+  release();
+  await expect(bar).toBeHidden();
+  await expect(page.locator('.title-block')).toContainText('24 triangles');
+});
+
 test.describe('CAD viewer without models', () => {
   test.use({ allowedErrors: [/status of 404/] });
 

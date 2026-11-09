@@ -32,6 +32,7 @@ import {
   MODELS_URL,
   parseStl,
   Part,
+  progressOf,
 } from './model';
 
 /** CSS colours for each kind of part, read from the theme tokens. */
@@ -99,6 +100,9 @@ export class CadSheet {
     polygonOffsetUnits: 2,
   });
   private readonly geometries = new Map<string, Promise<BufferGeometry>>();
+  /** Bytes received per file, for the loading bar; a finished file stays at its full size. */
+  private readonly received = new Map<string, number>();
+  private onBytes: (() => void) | null = null;
   private readonly colours: Record<Kind | 'hot', Color>;
   private readonly ray = new Raycaster();
   private readonly resizer: ResizeObserver;
@@ -132,9 +136,16 @@ export class CadSheet {
   }
 
   /** Replaces the drawing. Resolves with the part list, or null if another load overtook it. */
-  async load(a: Assembly): Promise<Loaded | null> {
+  async load(a: Assembly, progress?: (fraction: number) => void): Promise<Loaded | null> {
     const id = ++this.loadId;
+    const report = () => progress?.(progressOf(a.parts, (f) => this.received.get(f) ?? 0));
+    this.onBytes = report;
+    report();
     const geos = await Promise.all(a.parts.map((p) => this.geometry(p.file)));
+    if (id !== this.loadId) return null;
+    this.onBytes = null;
+    // Let the full bar paint before the edges are traced, which blocks for a moment on big models.
+    await new Promise((r) => setTimeout(r, 30));
     if (id !== this.loadId) return null;
     this.clear();
     const bb = new Box3();
@@ -293,22 +304,45 @@ export class CadSheet {
   private geometry(file: string): Promise<BufferGeometry> {
     let g = this.geometries.get(file);
     if (!g) {
-      g = fetch(MODELS_URL + file)
-        .then((r) => {
-          if (!r.ok) throw new Error(`${file}: HTTP ${r.status}`);
-          return r.arrayBuffer();
-        })
-        .then((buf) => {
-          const geo = new BufferGeometry();
-          geo.setAttribute('position', new BufferAttribute(parseStl(buf), 3));
-          geo.computeVertexNormals();
-          geo.computeBoundingBox();
-          return geo;
-        });
-      g.catch(() => this.geometries.delete(file));
+      g = this.download(file).then((buf) => {
+        const geo = new BufferGeometry();
+        geo.setAttribute('position', new BufferAttribute(parseStl(buf), 3));
+        geo.computeVertexNormals();
+        geo.computeBoundingBox();
+        return geo;
+      });
+      g.catch(() => {
+        this.geometries.delete(file);
+        this.received.delete(file);
+      });
       this.geometries.set(file, g);
     }
     return g;
+  }
+
+  /** Fetches a file and counts its bytes as they arrive. */
+  private async download(file: string): Promise<ArrayBuffer> {
+    const r = await fetch(MODELS_URL + file);
+    if (!r.ok) throw new Error(`${file}: HTTP ${r.status}`);
+    if (!r.body) return r.arrayBuffer();
+    const reader = r.body.getReader();
+    const chunks: Uint8Array[] = [];
+    let n = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      n += value.byteLength;
+      this.received.set(file, n);
+      this.onBytes?.();
+    }
+    const buf = new Uint8Array(n);
+    let o = 0;
+    for (const c of chunks) {
+      buf.set(c, o);
+      o += c.byteLength;
+    }
+    return buf.buffer;
   }
 
   private clear(): void {

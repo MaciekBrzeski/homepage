@@ -65,6 +65,24 @@ export function parseStl(buf: ArrayBuffer): Float32Array {
   return pos;
 }
 
+/** Size of a binary STL with this many triangles: 80-byte header, count, 50 bytes per triangle. */
+export const stlBytes = (tris: number): number => 84 + 50 * tris;
+
+/**
+ * Download progress of an assembly, 0..1: bytes received so far over the expected size of each
+ * distinct file (parts can share one). Files without a triangle count are left out of the sum.
+ */
+export function progressOf(parts: Part[], received: (file: string) => number): number {
+  const files = new Map(parts.filter((p) => p.tris).map((p) => [p.file, stlBytes(p.tris!)]));
+  let want = 0;
+  let got = 0;
+  for (const [file, size] of files) {
+    want += size;
+    got += Math.min(size, received(file));
+  }
+  return want ? got / want : 1;
+}
+
 type Vec3 = [number, number, number];
 
 /**

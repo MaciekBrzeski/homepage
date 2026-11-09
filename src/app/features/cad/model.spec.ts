@@ -1,4 +1,4 @@
-import { explodeOffset, formatSize, kindOf, parseStl } from './model';
+import { explodeOffset, formatSize, kindOf, parseStl, progressOf, stlBytes } from './model';
 
 function stl(tris: number[][]): ArrayBuffer {
   const buf = new ArrayBuffer(84 + tris.length * 50);
@@ -35,5 +35,20 @@ describe('CAD model helpers', () => {
 
   it('rounds sizes to whole millimetres', () => {
     expect(formatSize(257.6, 258.2, 40.5)).toBe('258 × 258 × 41 mm');
+  });
+
+  it('measures download progress over distinct files', () => {
+    const parts = [
+      { id: 'a', file: 'a.stl', tris: 10 },
+      { id: 'a2', file: 'a.stl', tris: 10 }, // the same file again
+      { id: 'b', file: 'b.stl', tris: 30 },
+    ];
+    const total = stlBytes(10) + stlBytes(30);
+    expect(progressOf(parts, () => 0)).toBe(0);
+    expect(progressOf(parts, (f) => (f === 'a.stl' ? stlBytes(10) : 0))).toBeCloseTo(
+      stlBytes(10) / total,
+    );
+    expect(progressOf(parts, () => 1e9)).toBe(1);
+    expect(progressOf([{ id: 'x', file: 'x.stl' }], () => 0)).toBe(1);
   });
 });

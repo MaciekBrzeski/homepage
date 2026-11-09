@@ -19,7 +19,7 @@ const FLATTEN = `
   body { background-image: none !important; }
   .main { background: none !important; }
   .rail::after, .taped::before { display: none !important; }
-  .sheet { background-image: none !important; }
+  .sheet::after { display: none !important; }
   .section-title { background: none !important; }
   .mat-focus-indicator, .mat-ripple { display: none !important; }
 `;

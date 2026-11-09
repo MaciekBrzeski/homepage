@@ -57,6 +57,10 @@ export class Cad {
     () => this.cad.models.find((m) => m.key === this.selected()) ?? this.cad.models[0],
   );
   protected readonly status = signal<Status>('loading');
+  /** Download progress of the model being loaded, 0..1. */
+  protected readonly progress = signal(0);
+  /** Opacity of the graph paper's grid, so it can be faded out behind a busy model. */
+  protected readonly grid = signal(1);
   protected readonly rows = signal<Row[]>([]);
   protected readonly stats = signal<{ tris: number; size: string } | null>(null);
   protected readonly explode = signal(0);
@@ -194,9 +198,10 @@ export class Cad {
       return;
     }
     this.status.set('loading');
+    this.progress.set(0);
     this.hot.set(null);
     try {
-      const loaded = await sheet.load(assembly);
+      const loaded = await sheet.load(assembly, (f) => this.progress.set(f));
       if (!loaded) return; // another model was picked meanwhile
       this.rows.set(loaded.parts.map((p, index) => ({ index, ...p, visible: !p.part.alt })));
       this.stats.set({ tris: loaded.tris, size: formatSize(...loaded.size) });
