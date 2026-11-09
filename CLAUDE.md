@@ -4,7 +4,7 @@ Public personal site: portfolio + shelf of browser games. Angular 22 + Angular M
 
 ## Commands
 - `npm test`: ng test (vitest). `npx ng build`: prerenders every route into dist/homepage/browser.
-- `node scripts/assemble.mjs [--skip-games] [--strict]`: dist + game bundles → out/.
+- `node scripts/assemble.mjs [--skip-games] [--strict]`: dist + game bundles + CAD models → out/.
 - `npm run check`: everything CI runs: format, e2e typecheck, unit tests, build + assemble, Playwright.
 - `npm run e2e`: Playwright (e2e/) against out/, served by scripts/serve.mjs the way Caddy serves it.
   Build first (`npm run build:site`). `npm run serve` serves out/ on :4300 for a manual look.
@@ -37,3 +37,8 @@ Public personal site: portfolio + shelf of browser games. Angular 22 + Angular M
 - A one-off browser check of a local build: use `npm run serve` (no-store headers). python's http.server lets
   Chrome cache a stale index.html.
 - Game bundles are static files at /games/<slug>/play/. Link to them with a plain href, never routerLink.
+- CAD (`features/cad/`): three.js lives only in `sheet.ts`, which the page loads with `import()`; never import
+  `three` anywhere else, or it lands in the initial bundle. The sheet reads its ink colours from theme tokens
+  (`--pen`, `--ink-green`, `--pencil`, `--ink-violet`, `--ink-red`). Models are copied at assemble time and never
+  committed; e2e serves a generated cube instead (`e2e/site.ts`), and `cad.spec.ts` loads the real ones when
+  out/ has them. Notes on parts come straight from the CAD generators' assembly.json, so they ship as written.

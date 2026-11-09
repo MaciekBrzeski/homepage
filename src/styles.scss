@@ -37,6 +37,12 @@ html {
   --spiral-mid: #a7aebb;
   --spiral-light: #e4e7ec;
   --card-rule: #d5e1ef;
+  --grid-major: #b9cde4;
+  // Inks for technical drawings (the CAD page)
+  --ink-green: #2e7a49;
+  --ink-red: #c62f2f;
+  --ink-violet: #6a4aa3;
+  --pencil: #8c919c;
   --hand: Caveat, 'Comic Neue', cursive;
 
   // The page itself
@@ -90,6 +96,11 @@ h3 {
 }
 
 // ---- Index card -----------------------------------------------------------
+// Cards and notes are paper in both schemes, so native controls on them stay light too
+.paper,
+.note {
+  color-scheme: light;
+}
 .paper {
   position: relative;
   background: var(--card);

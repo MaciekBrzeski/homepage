@@ -1,6 +1,7 @@
 # homepage
 
-My personal site: about me, side projects, and a shelf of small browser games I make.
+My personal site: about me, side projects, a shelf of small browser games I make, and a CAD page with my 3D-printing
+designs.
 Live at **https://maciejbrzeski.duckdns.org**.
 
 Built with **Angular 22** and **Angular Material** (Material 3 theme, light/dark from the system): standalone components, lazy-loaded routes, signals (`input()`, `computed()`, `viewChild()`), the
@@ -12,7 +13,7 @@ prerendered at build time (`outputMode: "static"`), so the server is plain Caddy
 `npm run check` runs what CI runs (.github/workflows/ci.yml) on every push and pull request:
 prettier, a typecheck of the e2e suite, unit tests (vitest), the static build, then Playwright on desktop and
 phone viewports: axe accessibility (WCAG 2.2 AA, light and dark), navigation, the theme switch, the game page,
-the 404, and the prerendered HTML with JavaScript off (titles, canonical links, no phone or e-mail).
+the CAD viewer (against a generated test cube; the real models too when out/ has them), the 404, and the prerendered HTML with JavaScript off (titles, canonical links, no phone or e-mail).
 `npm run deploy` runs the same suites against the exact files it is about to upload, and stops on a failure.
 
 ## How it fits together
@@ -22,7 +23,9 @@ the 404, and the prerendered HTML with JavaScript off (titles, canonical links, 
   (light / dark / system switch, saved in localStorage), `brand-icons.ts`.
 - `src/app/layout/`: the sidebar (`nav/`) and the theme switch (`theme-toggle/`).
 - `src/app/features/`: one folder per area, each lazy-loaded: `about/`, `projects/` (with `project-card/`), and
-  `games/` with its own `games.routes.ts` (`game-list/`, `game-page/` where the game runs in an iframe, `game-card/`).
+  `games/` with its own `games.routes.ts` (`game-list/`, `game-page/` where the game runs in an iframe, `game-card/`),
+  and `cad/`: the hologrid viewer redrawn as ink on graph paper. `sheet.ts` is the three.js renderer, loaded with
+  `import()` only on that page; `model.ts` holds the STL parsing and the catalog types.
 - `src/app/shared/`: pieces used across features (`not-found/`).
 - Every component is split into `name.ts`, `name.html` and `name.scss` in its own folder.
 - `src/app/app.ts`: the layout. Wide screens get a fixed sidebar positioned in plain CSS, so the prerendered HTML is
@@ -31,6 +34,9 @@ the 404, and the prerendered HTML with JavaScript off (titles, canonical links, 
 - Games are separate projects with their own build. `scripts/assemble.mjs` builds each one and copies its bundle
   to `/games/<slug>/play/`, next to the prerendered Angular pages. The game page links to that path with a plain
   `href`, because it is static files, not a route.
+- CAD models come from the hologrid viewer's project (`site.json` → `cad.project`, `../rod/svarog-hologrid`).
+  `scripts/assemble.mjs` runs its `build.py`, then copies only the assemblies listed in `cad.models` (and only the
+  STLs they use) to `/cad/models/`, with a trimmed `catalog.json`. They are not committed here.
 - `getPrerenderParams` in `app.routes.server.ts` prerenders one page per game listed in `site.json`.
 
 ## Commands

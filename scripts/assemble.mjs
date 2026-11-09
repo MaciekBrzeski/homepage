@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-// After `ng build`: copy the prerendered site into out/, then each game's bundle into out/games/<slug>/play/.
-//   node scripts/assemble.mjs              build every game first (in its own project), then copy
-//   node scripts/assemble.mjs --skip-games reuse each game's existing dist/
-// A game whose project folder is missing (e.g. a fresh clone of this repo) is skipped with a warning.
+// After `ng build`: copy the prerendered site into out/, then each game's bundle into out/games/<slug>/play/,
+// then the CAD models listed in site.json (from the hologrid viewer's build) into out/cad/models/.
+//   node scripts/assemble.mjs              build every game and hologrid first (in their own projects), then copy
+//   node scripts/assemble.mjs --skip-games reuse their existing dist/
+// A project folder that is missing (e.g. a fresh clone of this repo) is skipped with a warning;
+// --strict turns any skip into a failure.
 import { execSync } from 'node:child_process';
-import { cpSync, existsSync, readFileSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -40,4 +42,42 @@ for (const g of site.games) {
   cpSync(dist, join(out, 'games', g.slug, 'play'), { recursive: true });
 }
 console.log(`out/ ready: ${site.games.length - missing}/${site.games.length} game bundle(s)`);
+
+// CAD: publish only the assemblies site.json lists, and only the STLs they use.
+const cad = site.cad;
+const cadProj = resolve(root, cad.project);
+if (!existsSync(cadProj)) {
+  console.warn(`warn: cad: project ${cadProj} not found, models skipped`);
+  missing++;
+} else {
+  if (!skipGames && cad.build) {
+    console.log(`build cad: ${cad.build} (in ${cadProj})`);
+    execSync(cad.build, { cwd: cadProj, stdio: 'inherit' });
+  }
+  const dist = join(cadProj, cad.dist);
+  const catalog = JSON.parse(readFileSync(join(dist, 'catalog.json'), 'utf8'));
+  const dest = join(out, 'cad', 'models');
+  const assemblies = cad.models.map(({ key }) => {
+    const a = catalog.assemblies.find((x) => x.key === key);
+    if (!a) throw new Error(`cad: assembly ${key} is not in ${dist}/catalog.json`);
+    return {
+      key: a.key,
+      name: a.name,
+      up: a.up,
+      parts: a.parts.map((p) => {
+        if (!p.file.startsWith('models/') || p.file.endsWith('.json'))
+          throw new Error(
+            `cad: ${key}/${p.id}: expected a binary STL under models/, got ${p.file}`,
+          );
+        const file = p.file.slice('models/'.length);
+        mkdirSync(dirname(join(dest, file)), { recursive: true });
+        cpSync(join(dist, p.file), join(dest, file));
+        const { id, material, note, ghost, alt, tris, instances } = p;
+        return { id, file, material, note, ghost, alt, tris, instances };
+      }),
+    };
+  });
+  writeFileSync(join(dest, 'catalog.json'), JSON.stringify({ assemblies }));
+  console.log(`cad: ${assemblies.length} assemblies`);
+}
 if (missing && process.argv.includes('--strict')) process.exit(1);

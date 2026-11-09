@@ -24,6 +24,24 @@ export interface Project {
   href: string | null;
 }
 
+export interface CadModel {
+  /** Assembly key in the hologrid catalog. */
+  key: string;
+  title: string;
+  blurb: string;
+}
+
+export interface Cad {
+  description: string;
+  intro: string;
+  credit: string;
+  /** The viewer's own project (hologrid), relative to this repo; used only by scripts/assemble.mjs. */
+  project: string;
+  build: string;
+  dist: string;
+  models: CadModel[];
+}
+
 export interface Job {
   role: string;
   org: string | null;
@@ -48,6 +66,7 @@ export interface Site {
   languages: { name: string; level: string }[];
   projects: Project[];
   games: Game[];
+  cad: Cad;
 }
 
 /** All site content. Edit src/content/site.json, never the components. */

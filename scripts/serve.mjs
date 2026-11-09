@@ -27,6 +27,7 @@ const TYPES = {
   '.mp3': 'audio/mpeg',
   '.ogg': 'audio/ogg',
   '.wav': 'audio/wav',
+  '.stl': 'model/stl',
   '.txt': 'text/plain; charset=utf-8',
 };
 

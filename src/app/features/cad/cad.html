@@ -1,0 +1,173 @@
+<div class="page">
+  <h1 class="page-title">CAD</h1>
+  <p class="lead">{{ cad.intro }}</p>
+
+  <div class="picker" role="group" aria-label="Model">
+    @for (m of cad.models; track m.key) {
+      <button
+        type="button"
+        class="tag"
+        [class.on]="m.key === selected()"
+        [attr.aria-pressed]="m.key === selected()"
+        (click)="selected.set(m.key)"
+      >
+        {{ m.title }}
+      </button>
+    }
+  </div>
+
+  <figure class="sheet paper taped">
+    <canvas
+      #canvas
+      tabindex="0"
+      role="img"
+      [attr.aria-label]="
+        'Wireframe drawing of the ' + model().title + '. Arrow keys turn it, plus and minus zoom.'
+      "
+      (pointerdown)="down($event)"
+      (pointermove)="move($event)"
+      (pointerup)="up()"
+      (pointercancel)="up()"
+      (pointerleave)="hot.set(null)"
+      (wheel)="wheel($event)"
+      (keydown)="key($event)"
+    ></canvas>
+
+    <div class="tools">
+      <button matIconButton type="button" title="Zoom in" aria-label="Zoom in" (click)="zoom(0.8)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        matIconButton
+        type="button"
+        title="Zoom out"
+        aria-label="Zoom out"
+        (click)="zoom(1.25)"
+      >
+        <mat-icon>remove</mat-icon>
+      </button>
+      <button
+        matIconButton
+        type="button"
+        title="Reset view"
+        aria-label="Reset view"
+        (click)="reset()"
+      >
+        <mat-icon>center_focus_strong</mat-icon>
+      </button>
+    </div>
+
+    <!-- The title block in the corner of a technical drawing -->
+    <figcaption class="title-block" aria-live="polite">
+      <span class="tb-name">{{ model().title }}</span>
+      @switch (status()) {
+        @case ('ready') {
+          @if (stats(); as s) {
+            <span class="tb-row"
+              >{{ rows().length }} parts · {{ s.tris.toLocaleString('en') }} triangles</span
+            >
+            <span class="tb-row">{{ s.size }}</span>
+          }
+        }
+        @case ('loading') {
+          <span class="tb-row">Drawing…</span>
+        }
+        @case ('missing') {
+          <span class="tb-row">The models are not in this build.</span>
+        }
+        @case ('failed') {
+          <span class="tb-row">This model failed to load.</span>
+        }
+      }
+    </figcaption>
+  </figure>
+
+  <p class="hot-line" aria-live="polite">
+    @if (hotRow(); as r) {
+      <strong>{{ r.part.id }}</strong>
+      @if (r.part.note) {
+        · {{ r.part.note }}
+      }
+    } @else {
+      <span class="muted"
+        >Drag to turn it. Point at a part, or at a row in the list, to see what it is.</span
+      >
+    }
+  </p>
+
+  <div class="panels">
+    <section class="note view" aria-labelledby="view-title">
+      <h2 class="card-title" id="view-title">{{ model().title }}</h2>
+      <p>{{ model().blurb }}</p>
+
+      <label class="range">
+        <span>Explode</span>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          [value]="explode()"
+          (input)="explode.set(value($event))"
+        />
+      </label>
+      <label class="check">
+        <input type="checkbox" [checked]="ghosts()" (change)="ghosts.set(checked($event))" />
+        Bought parts and context
+      </label>
+      @if (hasAlternatives()) {
+        <label class="check">
+          <input
+            type="checkbox"
+            [checked]="alternatives()"
+            (change)="alternatives.set(checked($event))"
+          />
+          Alternative parts
+        </label>
+      }
+      <label class="check">
+        <input type="checkbox" [checked]="xray()" (change)="xray.set(checked($event))" />
+        X-ray (show hidden lines)
+      </label>
+
+      <ul class="legend" aria-label="Ink colours">
+        @for (l of legend; track l.kind) {
+          <li><span class="dot" [attr.data-kind]="l.kind"></span>{{ l.label }}</li>
+        }
+      </ul>
+    </section>
+
+    <section class="paper parts" aria-labelledby="parts-title">
+      <h2 class="card-title head" id="parts-title">
+        Parts <span class="muted">({{ rows().length }})</span>
+      </h2>
+      @if (rows().length) {
+        <ul>
+          @for (r of rows(); track r.index) {
+            <li
+              [class.hot]="hot() === r.index"
+              [class.off]="!r.visible"
+              (mouseenter)="hot.set(r.index)"
+              (mouseleave)="hot.set(null)"
+            >
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="r.visible"
+                  (change)="toggle(r, checked($event))"
+                />
+                <span class="dot" [attr.data-kind]="r.kind"></span>
+                <span class="id">{{ r.part.id }}</span>
+                <span class="qty muted">×{{ r.qty }} {{ r.part.material ?? '' }}</span>
+              </label>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="muted">The part list appears once the model is drawn.</p>
+      }
+    </section>
+  </div>
+
+  <p class="muted credit">{{ cad.credit }}</p>
+</div>

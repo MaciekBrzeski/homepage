@@ -18,7 +18,7 @@ rsync -az --delete --chmod=D755,F644 out/ "$DEPLOY_TARGET/"
 
 code() { curl -s -o /dev/null --max-time 15 -w '%{http_code}' "$1" || true; }
 fail=0
-for p in / /projects/ /games/ $(node -p 'require("./src/content/site.json").games.map(g => `/games/${g.slug}/ /games/${g.slug}/play/`).join(" ")'); do
+for p in / /projects/ /games/ /cad/ /cad/models/catalog.json $(node -p 'require("./src/content/site.json").games.map(g => `/games/${g.slug}/ /games/${g.slug}/play/`).join(" ")'); do
   c="$(code "https://$HOST$p")"; echo "$c  https://$HOST$p"; [[ "$c" == 200 ]] || fail=1
 done
 c="$(code "https://$HOST/no-such-page")"; echo "$c  /no-such-page (want 404)"; [[ "$c" == 404 ]] || fail=1

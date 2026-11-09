@@ -14,6 +14,10 @@ export const routes: Routes = [
     path: 'games',
     loadChildren: () => import('./features/games/games.routes').then((m) => m.GAMES_ROUTES),
   },
+  {
+    path: 'cad',
+    loadComponent: () => import('./features/cad/cad').then((m) => m.Cad),
+  },
   // Prerendered to 404/index.html; scripts/assemble.mjs copies it to /404.html for Caddy's error handler.
   {
     path: '404',

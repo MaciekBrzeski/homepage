@@ -1,0 +1,215 @@
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: -16px 0 30px;
+}
+.picker .tag {
+  cursor: pointer;
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  font-size: 0.95rem;
+  padding: 5px 14px;
+}
+.picker .tag.on {
+  background: var(--note-yellow);
+  border-color: var(--ink);
+}
+.picker .tag:focus-visible,
+canvas:focus-visible {
+  outline: 3px solid var(--pen);
+  outline-offset: 3px;
+}
+
+// A sheet of graph paper taped to the page, with the drawing on it
+.sheet {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--card);
+  background-image:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--card-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--card-rule) 1px, transparent 1px);
+  background-size:
+    100px 100px,
+    100px 100px,
+    20px 20px,
+    20px 20px;
+  background-position: -1px -1px;
+}
+canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  cursor: grab;
+  // vertical swipes still scroll the page on phones; sideways drags turn the model
+  touch-action: pan-y;
+}
+canvas:active {
+  cursor: grabbing;
+}
+.tools {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  --mat-icon-button-icon-color: var(--ink);
+}
+.tools button {
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.title-block {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  background: var(--card);
+  color: var(--ink);
+  border-top: 2px solid var(--ink);
+  border-left: 2px solid var(--ink);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+.tb-name,
+.tb-row {
+  padding: 3px 12px;
+}
+.tb-name {
+  font: 700 1.35rem/1.2 var(--hand);
+  border-bottom: 1px solid var(--ink);
+}
+.tb-row + .tb-row {
+  border-top: 1px solid var(--card-rule);
+}
+
+.hot-line {
+  min-height: 3em;
+  margin: 18px 0 26px;
+  line-height: 1.5;
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 32px;
+  align-items: start;
+}
+.card-title {
+  font: 700 1.7rem/1.1 var(--hand);
+  margin: 0 0 10px;
+}
+.view {
+  transform: rotate(-0.6deg);
+}
+.view p {
+  margin: 0 0 18px;
+  line-height: 1.5;
+}
+.range {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+input[type='range'],
+input[type='checkbox'] {
+  accent-color: var(--pen);
+  margin: 0;
+}
+input[type='range'] {
+  width: 100%;
+}
+.legend {
+  list-style: none;
+  padding: 12px 0 0;
+  margin: 14px 0 0;
+  border-top: 1.5px dashed rgba(42, 45, 58, 0.35);
+  display: grid;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dot {
+  flex: none;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--pen);
+}
+.dot[data-kind='flexible'] {
+  background: var(--ink-green);
+}
+.dot[data-kind='bought'] {
+  background: var(--pencil);
+}
+.dot[data-kind='alternative'] {
+  background: var(--ink-violet);
+}
+
+.parts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.parts li label {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.parts li.hot label {
+  background: var(--note-pink);
+}
+.parts li.off .id {
+  text-decoration: line-through;
+  color: var(--ink-soft);
+}
+.id {
+  overflow-wrap: anywhere;
+}
+.qty {
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.credit {
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  canvas {
+    aspect-ratio: 1;
+  }
+  .title-block {
+    position: static;
+    min-width: 0;
+    border-left: 0;
+  }
+}

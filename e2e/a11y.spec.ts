@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
-import { expect, openNav, PAGES, test } from './site';
+import { expect, openNav, PAGES, settled, test } from './site';
 
 // WCAG 2.2 AA plus axe's best-practice rules, as required by CLAUDE.md.
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
@@ -13,11 +13,13 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-prac
  * Material's focus-indicator and ripple layers are transparent until used, but axe treats them
  * as overlapping the nav labels. axe also gives up ("partially obscured") on any background on
  * the section titles, so their highlighter is removed here and checked by its own test below.
+ * The CAD sheet's graph paper is a gradient too; its text sits in the solid title block.
  */
 const FLATTEN = `
   body { background-image: none !important; }
   .main { background: none !important; }
   .rail::after, .taped::before { display: none !important; }
+  .sheet { background-image: none !important; }
   .section-title { background: none !important; }
   .mat-focus-indicator, .mat-ripple { display: none !important; }
 `;
@@ -59,7 +61,7 @@ for (const scheme of ['light', 'dark'] as const) {
     for (const { path } of [...PAGES, { path: '/no-such-page' }]) {
       test(path, async ({ page }) => {
         await page.goto(path);
-        await expect(page.locator('h1')).toBeVisible();
+        await settled(page, path);
         expect(await audit(page)).toEqual([]);
       });
     }

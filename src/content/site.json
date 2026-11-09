@@ -209,5 +209,40 @@
       "thumb": "thumbs/duck-gallery.png",
       "aspect": "16 / 9"
     }
-  ]
+  ],
+  "cad": {
+    "description": "3D-printable parts I design as CAD scripts, drawn in the browser with my own wireframe viewer.",
+    "intro": "Parts I design for my 3D printer. They are written as CAD scripts rather than drawn by hand, and each script also writes the assembly you see here. Turn them, explode them, and point at a part to read its note.",
+    "credit": "Drawn with hologrid, my small three.js viewer: every part is sliced by a 10 mm grid in the orientation it prints in, and hard edges are traced on top.",
+    "project": "../rod/svarog-hologrid",
+    "build": "python3 build.py",
+    "dist": "dist",
+    "models": [
+      {
+        "key": "svarog-scan-rig-2-layout-draft",
+        "title": "3D scanner, rig 2",
+        "blurb": "A laser-line 3D scanner on a free-standing frame of reused Ender 3 aluminium extrusions: a fixed camera on a leadscrew carriage, two line lasers on a head bar and a 258 mm turntable. Layout draft: some printed parts are still blocks for size."
+      },
+      {
+        "key": "svarog-scan-turntable-rev-2c-258-mm",
+        "title": "Scanner turntable",
+        "blurb": "The turntable for a 15 cm scan volume. AprilTag markers sit in keyed pockets on the face and on a faceted calibration lip; a reused Ender 3 stepper motor drives it directly."
+      },
+      {
+        "key": "svarog-scan-scanner-design-draft",
+        "title": "3D scanner, first design",
+        "blurb": "An earlier design draft: a desk-clamped post carrying a SCARA arm with a pan/tilt wrist, and a head with a Raspberry Pi camera, a Pi Zero 2 W and two cross lasers."
+      },
+      {
+        "key": "svarog-scan-post",
+        "title": "Desk post",
+        "blurb": "A fully printed post that clamps to a wooden desk: three 270 mm square tubes on pinned couplers, and a carriage that pins into holes every 50 mm."
+      },
+      {
+        "key": "morphwheel-tread",
+        "title": "Morphwheel tread",
+        "blurb": "A flexible TPU tread loop with 52 PLA cores, made in one print: the printer pauses and the cores are dropped into their pockets."
+      }
+    ]
+  }
 }
