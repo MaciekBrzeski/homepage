@@ -35,26 +35,12 @@
     routerLink="/games"
     routerLinkActive="on"
     #games="routerLinkActive"
-    [routerLinkActiveOptions]="{ exact: true }"
     [activated]="games.isActive"
     (click)="navigate.emit()"
   >
     <mat-icon matListItemIcon>sports_esports</mat-icon>
     <span matListItemTitle>Games</span>
   </a>
-  @for (g of site.games; track g.slug) {
-    <a
-      mat-list-item
-      class="sub"
-      [routerLink]="['/games', g.slug]"
-      routerLinkActive="on"
-      #game="routerLinkActive"
-      [activated]="game.isActive"
-      (click)="navigate.emit()"
-    >
-      <span matListItemTitle>{{ g.title }}</span>
-    </a>
-  }
   <a
     mat-list-item
     routerLink="/cad"

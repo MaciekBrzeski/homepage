@@ -13,8 +13,12 @@ test('sidebar links move between pages and mark the current one', async ({ page,
   await expect(nav.getByRole('link', { name: 'Projects' })).toHaveClass(/\bon\b/);
   await nav.getByRole('link', { name: 'Games', exact: true }).click();
   await expect(page.locator('h1')).toHaveText('Games');
-
+  // A game page is reached from the list and keeps Games marked as current.
+  await page.locator('a.card-link').first().click();
+  await expect(page).toHaveURL(new RegExp(`/games/${SITE.games[0].slug}/?$`));
   nav = await openNav(page, isMobile);
+  await expect(nav.getByRole('link', { name: 'Games' })).toHaveClass(/\bon\b/);
+  await expect(nav.getByRole('link', { name: SITE.games[0].title })).toHaveCount(0);
   await nav.getByRole('link', { name: 'About' }).click();
   await expect(page.locator('h1')).toContainText("Hi, I'm");
 });
